@@ -10,9 +10,7 @@ public class SpecializedMinHeap implements SpecializedMinHeapInterface {
      * Initializes an empty min heap with no vertices.
      */
     public SpecializedMinHeap() {
-        this.heapIndices = new int[INITIAL_SIZE];
-        this.minHeap = new Data[INITIAL_SIZE];
-        this.numVertices = 0;
+        this(-1, 0);
     }
 
     /**
@@ -23,27 +21,29 @@ public class SpecializedMinHeap implements SpecializedMinHeapInterface {
     //remaining specified number of vertices; initializes MinHeap location
     //for each vertex
     public SpecializedMinHeap(int source, int numVertices) {
-        this.heapIndices = new int[numVertices];
-        this.minHeap = new Data[numVertices];
+        this.heapIndices = new int[numVertices > INITIAL_SIZE ? numVertices : INITIAL_SIZE];
+        this.minHeap = new Data[numVertices > INITIAL_SIZE ? numVertices : INITIAL_SIZE];
         this.numVertices = numVertices;
 
-        // Initial location for all vertices before source is that vertex + 1
-        // to account for the shift caused by putting the source at the head of
-        // the max heap.
-        for (int i = 0; i < source; i++) {
-            heapIndices[i] = i + 1;
-            minHeap[i + 1] = new Data(i, Integer.MAX_VALUE);
-        }
+        if (numVertices > 0) {
+            // Initial location for all vertices before source is that vertex + 1
+            // to account for the shift caused by putting the source at the head of
+            // the max heap.
+            for (int i = 0; i < source; i++) {
+                heapIndices[i] = i + 1;
+                minHeap[i + 1] = new Data(i, Integer.MAX_VALUE);
+            }
 
-        // Put source at top of the max heap with distance 0.
-        heapIndices[source] = 0;
-        minHeap[0] = new Data(source, 0);
+            // Put source at top of the max heap with distance 0.
+            heapIndices[source] = 0;
+            minHeap[0] = new Data(source, 0);
 
-        // All vertices after the source are in the position corresponding to
-        // the index equalling that vertex, but still infinite distance.
-        for (int i = source; i < numVertices; i++) {
-            heapIndices[i] = i;
-            minHeap[i] = new Data(i, Integer.MAX_VALUE);
+            // All vertices after the source are in the position corresponding to
+            // the index equalling that vertex, but still infinite distance.
+            for (int i = source; i < numVertices; i++) {
+                heapIndices[i] = i;
+                minHeap[i] = new Data(i, Integer.MAX_VALUE);
+            }
         }
     }
 
@@ -60,6 +60,21 @@ public class SpecializedMinHeap implements SpecializedMinHeapInterface {
      * @return the outcome of the insertion
      */
     public boolean insert(int vertex, int value) {
+        // Resize arrays if too small
+        if (numVertices == minHeap.length) {
+            Data[] newMinHeap = new Data[numVertices * 2];
+            int[] newHeapIndices = new int[numVertices * 2];
+
+            // copy old info
+            for (int i = 0; i < numVertices * 2; i++) {
+                newMinHeap[i] = minHeap[i];
+                newHeapIndices[i] = heapIndices[i];
+            }
+
+            this.minHeap = newMinHeap;
+            this.heapIndices = newHeapIndices;
+        }
+
         int currentIndex = numVertices;
         Data newNode = new Data(vertex, value);
         // insert in leaf position
