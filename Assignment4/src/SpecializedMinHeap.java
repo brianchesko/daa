@@ -33,7 +33,7 @@ public class SpecializedMinHeap implements SpecializedMinHeapInterface {
      * @return the outcome of the insertion
      */
     public boolean insert(int vertex, int value) {
-        
+        return false;        
     }
 
     /**
