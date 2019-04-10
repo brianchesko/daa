@@ -1,0 +1,790 @@
+::::::::::::::
+Driver.java
+::::::::::::::
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+/**
+ * Brian Chesko
+ * DAA Programming Assignment 3
+ * Fully complete and tested, 2019/03/13
+ * Modified 2019/03/31
+ */
+public class Driver {
+
+    public static void main(String[] args) throws IOException {
+        System.out.println("Enter matrix size");
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        int n = Integer.parseInt(reader.readLine().trim());
+        System.out.println(n);
+        short[][] matrix = new short[n][n];
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                matrix[i][j] = (short) Integer.parseInt(reader.readLine().trim());
+                System.out.printf("%d\t", matrix[i][j]);
+            }
+            System.out.println();
+        }
+
+        // Note: here, I had to resolve the weirdest bug. I was getting
+        // different results after merging the solvers into one folder
+        // despite not changing any meaningful code.
+        // As it turned out, the matrices passed were being modified
+        // across solvers which messed up 2/3 of the solvers final
+        // results since they shared the same reference.
+        Solver sol0 = new SolverP0(matrix);
+        Solver sol1 = new SolverP1(deepMatrixCopy(matrix));
+        Solver sol2 = new SolverP2(deepMatrixCopy(matrix));
+
+        int[] solution = sol0.solve();
+        sol1.solve();
+        sol2.solve();
+
+        System.out.println("== Number of partial assignments explored ==");
+        System.out.printf("\tP0: %d \tP1: %d \tP2: %d\n", 
+            sol0.getPartialExploredSize(),
+            sol1.getPartialExploredSize(),
+            sol2.getPartialExploredSize());
+        System.out.println("==== Number of full assignments explored ===");
+        System.out.printf("\tP0: %d \tP1: %d \tP2: %d\n", 
+            sol0.getFullyExploredSize(),
+            sol1.getFullyExploredSize(),
+            sol2.getFullyExploredSize());
+        System.out.println("=== Total number of assignments explored ===");
+        System.out.printf("\tP0: %d \tP1: %d \tP2: %d\n", 
+            sol0.getTotalExploredSize(),
+            sol1.getTotalExploredSize(),
+            sol2.getTotalExploredSize());
+        System.out.println("Best job assignment is:");
+        for (int i = 0; i < n; i++) {
+            System.out.printf("Person %d assigned job %d\n", i, solution[i]);
+        }
+        System.out.printf("Best job assignment cost: %d\n",
+            sol0.getSolutionProductivity());
+    }
+
+    private static short[][] deepMatrixCopy(short[][] matrix) {
+        short[][] copy = new short[matrix.length][matrix[0].length];
+        for (int i = 0; i < copy.length; i++) {
+            for (int j = 0; j < copy[0].length; j++) {
+                copy[i][j] = matrix[i][j];
+            }
+        }
+        return copy;
+    }
+
+}
+::::::::::::::
+Solver.java
+::::::::::::::
+public abstract class Solver {
+    public abstract int[] solve();
+    public abstract long getPartialExploredSize();
+    public abstract long getFullyExploredSize();
+    public abstract long getTotalExploredSize();
+    public abstract int getSolutionProductivity();
+}
+::::::::::::::
+SolverP0.java
+::::::::::::::
+import java.util.*;
+import java.util.function.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+
+/**
+ * Brian Chesko
+ * DAA Programming Assignment 2
+ * Fully complete and tested, 2019/02/27
+ * Modified 2019/03/20
+ */
+public class SolverP0 extends Solver {
+    private short[][] matrix;
+    private int size;
+    private int highestProductivity;
+    private long solutionsExplored;
+    private long partialExplored;
+    private int[] bestArrangement;
+
+    public SolverP0(short[][] jobEmployeeMatrix) {
+        this.matrix = jobEmployeeMatrix;
+        this.size = matrix.length;
+        this.highestProductivity = 0;
+        this.solutionsExplored = 0;
+        this.partialExplored = 0;
+        this.bestArrangement = null;
+    }
+
+    /**
+     * Reinitialize the solver to work with the specified matrix.
+     * @param jobEmployeeMatrix The new matrix to solve.
+     */
+    public void setJobEmployeeMatrix(short[][] jobEmployeeMatrix) {
+        this.matrix = jobEmployeeMatrix;
+        this.size = matrix.length;
+        this.highestProductivity = 0;
+        this.solutionsExplored = 0;
+        this.partialExplored = 0;
+        this.bestArrangement = null;
+    }
+
+    /**
+     * Finds the most productive set of jobs assignments given the job
+     * employee matrix.
+     * @return an array containing the most productive arrangement, such that
+     * array[i] is the best job for employee i.
+     */
+    public int[] solve() {
+        // Already solved for this matrix, return previous solution.
+        if (bestArrangement != null)
+            return bestArrangement;
+
+        //int positionsPerThread = 2;
+        int numThreads = 4;//(size + positionsPerThread - 1) / positionsPerThread;
+        int positionsPerThread = (size + numThreads - 1) / numThreads;
+        ExecutorService threadPool = Executors.newFixedThreadPool(numThreads);
+        // Create one thread for every set of 'positionsPerThread' starting positions
+        for (int threadNo = 0; threadNo < numThreads; threadNo++) {
+            int start = threadNo * positionsPerThread;
+            SolvingPartition partition = new SolvingPartition(
+                    start,
+                    threadNo == numThreads - 1 ? size : start + positionsPerThread,
+                    this
+            );
+            // Add the thread to the thread pool
+            threadPool.execute(partition);
+        }
+
+        // Now all threads have been added to the thread pool,
+        // try to close the process and wait until complete
+        try {
+            threadPool.shutdown();
+            while (!threadPool.isTerminated()) {
+                threadPool.awaitTermination(60, TimeUnit.SECONDS);
+            }
+        } catch (InterruptedException e) {
+            // Should do something more useful with this but it's fine
+            e.printStackTrace();
+        }
+
+        return bestArrangement;
+    }
+
+    public void setHighestProductivity(int prod) {
+        this.highestProductivity = prod;
+    }
+
+    public void setBestArrangement(int[] arr) {
+        this.bestArrangement = arr.clone();
+    }
+
+    private class SolvingPartition implements Runnable {
+        private int firstEmpStartJob;
+        private int firstEmpEndJob;
+        private Consumer<SolverP0> endCallback;
+        private SolverP0 wrapper;
+        private int[] bestArrangement;
+        private long solutions;
+        private long partialSolutions;
+        private int highestProductivity;
+
+        /**
+         * @param firstEmpStartJob the index of the first employee tree to check
+         * @param firstEmpEndJob non inclusive index of last employee tree
+         */
+        SolvingPartition(int firstEmpStartJob, int firstEmpEndJob,
+                SolverP0 wrapper) {
+            this.firstEmpStartJob = firstEmpStartJob;
+            this.firstEmpEndJob = firstEmpEndJob;
+            this.endCallback = (x) -> {
+                if (x.getSolutionProductivity() < this.highestProductivity) {
+                    x.setHighestProductivity(highestProductivity);
+                    x.setBestArrangement(bestArrangement);
+                }
+                x.incrementFullExplored(solutions);
+                x.incrementPartialExplored(partialSolutions);
+            };
+            this.solutions = 0;
+            this.partialSolutions = 0;
+            this.bestArrangement = new int[size];
+            this.wrapper = wrapper;
+            this.highestProductivity = 0;
+        }
+
+        @Override
+        public void run() {
+            int[] arrangement = new int[size];
+            int[] partialProductivities = new int[size];
+            boolean[] columnUsed = new boolean[size];
+            short[][] matrix = deepMatrixCopy();
+            // Ensure prefill arrangement to all unused
+            for (int i = 0; i < size; i++) {
+                arrangement[i] = -1;
+            }
+
+            int emp = 0;
+            int job = firstEmpStartJob;
+
+            while (emp < size && emp >= 0) {
+                int lastJobToCheck = emp == 0 ? firstEmpEndJob : size;
+                int prevJob = arrangement[emp];
+                if (prevJob != -1) {
+                    // Don't check the same index twice for the same employee,
+                    // move to the next job.
+                    job = prevJob + 1;
+                    // Reset variables tracking the previous setup.
+                    columnUsed[prevJob] = false;
+                    arrangement[emp] = -1;
+                } else if (emp > 0) {
+                    // Haven't seen this employee before (for this subtree)
+                    // so start from beginning of job search.
+                    job = 0;
+                }
+                boolean foundCol = false;
+                while (job < lastJobToCheck && !foundCol) {
+                    partialSolutions++;
+                    if (!columnUsed[job]) {
+                        foundCol = true;
+                        columnUsed[job] = true;
+                        arrangement[emp] = job;
+                        if (emp == 0) {
+                            partialProductivities[emp] = matrix[emp][job]; //matrix.getProductivity(emp, job);
+                        } else {
+                            partialProductivities[emp] = partialProductivities[emp - 1] +  matrix[emp][job];//matrix.getProductivity(emp, job);
+                        }
+                    } else {
+                        job++;
+                    }
+                }
+
+                // We ALWAYS backtrack after the emp == size - 1 iteration.
+                // We also ALWAYS backtrack after job == size - 1, but ONLY after visiting children trees (if necessary).
+                if (emp == size - 1) {
+                    int partialProductivity = partialProductivities[emp];
+                    solutions++;
+                    if (partialProductivity > highestProductivity) {
+                        highestProductivity = partialProductivity;
+                        bestArrangement = arrangement.clone();
+                    }
+                    // Reset tracking variables for this position
+                    columnUsed[arrangement[emp]] = false;
+                    arrangement[emp] = -1;
+                    emp--;
+                } else if (!foundCol) {
+                    // Not the last employee, but still need to backtrack.
+                    emp--;
+                } else {
+                    emp++;
+                }
+            }
+
+            this.endCallback.accept(wrapper);
+        }
+    }
+
+    /**
+     * Converts the list into an int[] array for returning to the main program
+     * @param arrayList
+     * @return
+     */
+    private int[] convertToIntArray(List<Integer> arrayList) {
+        int[] array = new int[arrayList.size()];
+        for (int i = 0; i < array.length; i++) {
+            array[i] = arrayList.get(i);
+        }
+        return array;
+    }
+
+    /**
+     * @return the best job assignment for the current matrix.
+     */
+    public int[] getBestArrangement() {
+        return bestArrangement;
+    }
+
+    /**
+     * @return the total number of solutions explored while finding the best assignment
+     */
+    public long getExploredSize() {
+        return solutionsExplored;
+    }
+    
+    /**
+     * @return the number of partial  solutions explored while finding the
+     * best assignment
+     */
+    public long getPartialExploredSize() {
+        return partialExplored;
+    }
+
+    /**
+     * @return the number of full successful  solutions explored while
+     * finding the best assignment
+     */
+    public long getFullyExploredSize() {
+        return solutionsExplored;
+    }
+
+    /**
+     * @return the total number of solutions explored while finding the best
+     * assignment
+     */
+    public long getTotalExploredSize() {
+        return partialExplored + solutionsExplored;
+    }
+ 
+    public void incrementFullExplored(long sol) {
+        this.solutionsExplored += sol;
+    }
+
+    public void incrementPartialExplored(long partials) {
+        this.partialExplored += partials;
+    }
+
+    /**
+     * @return the overall productivity of the best assignment
+     */
+    public int getSolutionProductivity() {
+        return highestProductivity;
+    }
+
+    private short[][] deepMatrixCopy() {
+        short[][] copy = new short[matrix.length][matrix[0].length];
+        for (int i = 0; i < copy.length; i++) {
+            for (int j = 0; j < copy[0].length; j++) {
+                copy[i][j] = matrix[i][j];
+            }
+        }
+        return copy;
+    }
+
+}
+::::::::::::::
+SolverP1.java
+::::::::::::::
+import java.util.Arrays;
+
+/**
+ * Brian Chesko
+ * DAA Programming Assignment 3 Pt 1
+ * Fully complete and tested, 2019/03/13
+ */
+public class SolverP1 extends Solver {
+    private short[][] matrix;
+    private int size;
+    private int highestProductivity;
+    private long solutionsExplored;
+    private long partialExplored;
+    private int[] bestArrangement;
+
+    public SolverP1(short[][] jobEmployeeMatrix) {
+        this.matrix = jobEmployeeMatrix;
+        this.size = matrix.length;
+        this.highestProductivity = 0;
+        this.solutionsExplored = 0;
+        this.partialExplored = 0;
+        this.bestArrangement = null;
+    }
+
+    /**
+     * Reinitialize the solver to work with the specified matrix.
+     * @param jobEmployeeMatrix The new matrix to solve.
+     */
+    public void setJobEmployeeMatrix(short[][] jobEmployeeMatrix) {
+        this.matrix = jobEmployeeMatrix;
+        this.size = matrix.length;
+        this.highestProductivity = 0;
+        this.solutionsExplored = 0;
+        this.partialExplored = 0;
+        this.bestArrangement = null;
+    }
+
+    /**
+     * Finds the most productive set of jobs assignments given the job
+     * employee matrix.
+     * @return an array containing the most productive arrangement, such that
+     * array[i] is the best job for employee i.
+     */
+    public int[] solve() {
+        // Already solved for this matrix, return previous solution.
+        if (bestArrangement != null)
+            return bestArrangement;
+
+        bestArrangement = new int[size];
+        int[] arrangement = new int[size];
+        int[] partialProductivities = new int[size];
+        int[] maxSubtreeProductivities = new int[size];
+        boolean[] columnUsed = new boolean[size];
+        // Ensure prefill arrangement to all unused
+        for (int i = 0; i < size; i++) {
+            arrangement[i] = -1;
+            // Do preprocessing to determine largest productivity of each
+            // size subtree.  This lets us prune subtree searches that cannot
+            // possibly beat a current max partial assignment.
+            int largestVal = Integer.MIN_VALUE;
+            for (int val : matrix[i]) {
+                if (val > largestVal) {
+                    largestVal = val;
+                }
+            }
+            for (int j = 0; j <= i; j++) {
+                maxSubtreeProductivities[j] += largestVal;
+            }
+
+        }
+
+        int emp = 0;
+        int job;
+
+        while (emp < size && emp >= 0) {
+            int prevJob = arrangement[emp];
+            if (prevJob != -1) {
+                // Don't check the same index twice for the same employee,
+                // move to the next job.
+                job = prevJob + 1;
+                // Reset variables tracking the previous setup.
+                columnUsed[prevJob] = false;
+                arrangement[emp] = -1;
+            } else {
+                // Haven't seen this employee before (for this subtree)
+                // so start from beginning of job search.
+                job = 0;
+            }
+            boolean foundCol = false;
+
+            // If the partial solution + the largest combination after this is less
+            // than the highest seen, we can't possibly beat it. Skip that subtree.
+            int prodSoFar = emp == 0 ? 0 : partialProductivities[emp - 1];
+            if (prodSoFar + maxSubtreeProductivities[emp] > highestProductivity) {
+                while (job < size && !foundCol) {
+                    if (!columnUsed[job]) {
+                        foundCol = true;
+                        columnUsed[job] = true;
+                        arrangement[emp] = job;
+                        partialProductivities[emp] = prodSoFar + matrix[emp][job];
+                    } else {
+                        job++;
+                    }
+                }
+            } else {
+                this.partialExplored++;
+            }
+
+            // We ALWAYS backtrack after the emp == size - 1 iteration.
+            // We also ALWAYS backtrack after job == size - 1, but ONLY
+            // after visiting children trees (if necessary).
+            if (emp == size - 1) {
+                this.solutionsExplored++;
+                int partialProductivity = partialProductivities[emp];
+                if (foundCol) {
+                    // Save new best solution, if needed
+                    if (partialProductivity > highestProductivity) {
+                        highestProductivity = partialProductivity;
+                        for (int i = 0; i < size; i++) {
+                            bestArrangement[i] = arrangement[i];
+                        }
+                    }
+                    // Reset tracking variables for this setup so we can search more
+                    columnUsed[arrangement[emp]] = false;
+                    arrangement[emp] = -1;
+                }
+
+                // Reset tracking variables for this position
+                emp--;
+            } else if (!foundCol) {
+                // Not the last employee, but still need to backtrack.
+                emp--;
+            } else {
+                emp++;
+            }
+        }
+
+        return bestArrangement;
+    }
+
+    /**
+     * @return the best job assignment for the current matrix.
+     */
+    public int[] getBestArrangement() {
+        return bestArrangement;
+    }
+
+    /**
+     * @return the number of partial  solutions explored while finding the
+     * best assignment
+     */
+    public long getPartialExploredSize() {
+        return partialExplored;
+    }
+
+    /**
+     * @return the number of full successful  solutions explored while
+     * finding the best assignment
+     */
+    public long getFullyExploredSize() {
+        return solutionsExplored;
+    }
+
+    /**
+     * @return the total number of solutions explored while finding the best
+     * assignment
+     */
+    public long getTotalExploredSize() {
+        return partialExplored + solutionsExplored;
+    }
+
+    /**
+     * @return the overall productivity of the best assignment
+     */
+    public int getSolutionProductivity() {
+        return highestProductivity;
+    }
+
+}
+::::::::::::::
+SolverP2.java
+::::::::::::::
+import java.util.Arrays;
+
+/**
+ * Brian Chesko
+ * DAA Programming Assignment 3 Pt 2
+ * Fully complete and tested, 2019/03/20
+ */
+public class SolverP2 extends Solver {
+    private short[][] matrix;
+    private short[][] swapMatrix;
+    private int size;
+    private int highestProductivity;
+    private long solutionsExplored;
+    private long partialExplored;
+    private int[] bestArrangement;
+
+    public SolverP2(short[][] jobEmployeeMatrix) {
+        this.matrix = jobEmployeeMatrix;
+        this.size = matrix.length;
+        this.highestProductivity = 0;
+        this.solutionsExplored = 0;
+        this.partialExplored = 0;
+        this.bestArrangement = null;
+        this.createAndSwapMatrix();
+    }
+
+    /**
+     * Reinitialize the solver to work with the specified matrix.
+     * @param jobEmployeeMatrix The new matrix to solve.
+     */
+    public void setJobEmployeeMatrix(short[][] jobEmployeeMatrix) {
+        this.matrix = jobEmployeeMatrix;
+        this.size = matrix.length;
+        this.highestProductivity = 0;
+        this.solutionsExplored = 0;
+        this.partialExplored = 0;
+        this.bestArrangement = null;
+        this.createAndSwapMatrix();
+    }
+
+    /**
+     * Debug method for printing matrices
+     */
+    public void printMatrices() {
+        System.out.println("== Sorted job/employee matrix ==");
+        for (short[] row : matrix) {
+            for (short val : row) {
+                System.out.print(val + "\t");
+            }
+            System.out.println();
+        }
+        System.out.println("== Swap matrix ==");
+        for (short[] row : swapMatrix) {
+            for (short val : row) {
+                System.out.print(val + "\t");
+            }
+            System.out.println();
+        }
+    }
+
+    /**
+     * Sorts each row of the matrix in descending productivity order
+     * via insertion sort. Insertion sort is used because it's faster
+     * for small n (in fact the standard JDK Arrays.sort method uses
+     * insertion sort for n<47) as well as being simple to implement.
+     *
+     * The swap matrix created stores the original column in the new
+     * column, such that swapMatrix[i][j] is the original column that
+     * matrix[i][j] corresponded to.
+     */
+    private void createAndSwapMatrix() {
+        swapMatrix = new short[size][size];
+        for (int i = 0; i < size; i++) {
+            swapMatrix[i][0] = 0; // Initial value
+            // Sort row i by insertion sort
+            for (short j = 1; j < size; j++) {
+                swapMatrix[i][j] = j; // Initial value
+                // Store working value in a short just so we don't
+                // have to cast ever.
+                short currValue = matrix[i][j];
+                // Find ending position for current index j
+                int endPos = 0;
+                while (endPos < j && matrix[i][endPos] >= currValue) {
+                    endPos++;
+                }
+                // Shift values at [endPos, j - 1] right by 1, working
+                // right to left
+                for (int k = j - 1; k >= endPos; k--) {
+                    matrix[i][k + 1] = matrix[i][k];
+                    swapMatrix[i][k + 1] = swapMatrix[i][k];
+                }
+                // Put working value at its destination
+                matrix[i][endPos] = currValue;
+                swapMatrix[i][endPos] = j;
+            }
+        }
+    }
+
+    /**
+     * Finds the most productive set of jobs assignments given the job
+     * employee matrix.
+     * @return an array containing the most productive arrangement, such that
+     * array[i] is the best job for employee i.
+     */
+    public int[] solve() {
+        // Already solved for this matrix, return previous solution.
+        if (bestArrangement != null)
+            return bestArrangement;
+
+        bestArrangement = new int[size];
+        int[] arrangement = new int[size];
+        int[] partialProductivities = new int[size];
+        int[] maxSubtreeProductivities = new int[size];
+        boolean[] columnUsed = new boolean[size];
+        // Ensure prefill arrangement to all unused
+        for (int i = 0; i < size; i++) {
+            arrangement[i] = -1;
+            // Do preprocessing to determine largest productivity of each
+            // size subtree.  This lets us prune subtree searches that cannot
+            // possibly beat a current max partial assignment.
+            int largestVal = Integer.MIN_VALUE;
+            for (int val : matrix[i]) {
+                if (val > largestVal) {
+                    largestVal = val;
+                }
+            }
+            for (int j = 0; j <= i; j++) {
+                maxSubtreeProductivities[j] += largestVal;
+            }
+
+        }
+
+        int emp = 0;
+        int job;
+
+        while (emp < size && emp >= 0) {
+            int prevJob = arrangement[emp];
+            if (prevJob != -1) {
+                // Don't check the same index twice for the same employee,
+                // move to the next job.
+                job = prevJob + 1;
+                // Reset variables tracking the previous setup.
+                columnUsed[swapMatrix[emp][prevJob]] = false;
+                arrangement[emp] = -1;
+            } else {
+                // Haven't seen this employee before (for this subtree)
+                // so start from beginning of job search.
+                job = 0;
+            }
+            boolean foundCol = false;
+
+            // If the partial solution + the largest combination after this is less
+            // than the highest seen, we can't possibly beat it. Skip that subtree.
+            int prodSoFar = emp == 0 ? 0 : partialProductivities[emp - 1];
+            if (prodSoFar + maxSubtreeProductivities[emp] > highestProductivity) {
+                while (job < size && !foundCol) {
+                    if (!columnUsed[swapMatrix[emp][job]]) {
+                        foundCol = true;
+                        columnUsed[swapMatrix[emp][job]] = true;
+                        arrangement[emp] = job;
+                        partialProductivities[emp] = prodSoFar + matrix[emp][job];
+                    } else {
+                        job++;
+                    }
+                }
+            } else {
+                this.partialExplored++;
+            }
+
+            // We ALWAYS backtrack after the emp == size - 1 iteration.
+            // We also ALWAYS backtrack after job == size - 1, but ONLY
+            // after visiting children trees (if necessary).
+            if (emp == size - 1) {
+                this.solutionsExplored++;
+                int partialProductivity = partialProductivities[emp];
+                if (foundCol) {
+                    // Save new best solution, if needed
+                    if (partialProductivity > highestProductivity) {
+                        highestProductivity = partialProductivity;
+                        for (int i = 0; i < size; i++) {
+                            bestArrangement[i] = swapMatrix[i][arrangement[i]];
+                        }
+                    }
+                    // Reset tracking variables for this setup so we can search more
+                    columnUsed[swapMatrix[emp][arrangement[emp]]] = false;
+                    arrangement[emp] = -1;
+                }
+
+                // Reset tracking variables for this position
+                emp--;
+            } else if (!foundCol) {
+                // Not the last employee, but still need to backtrack.
+                emp--;
+            } else {
+                emp++;
+            }
+        }
+
+        return bestArrangement;
+    }
+
+    /**
+     * @return the best job assignment for the current matrix.
+     */
+    public int[] getBestArrangement() {
+        return bestArrangement;
+    }
+
+    /**
+     * @return the number of partial  solutions explored while finding the
+     * best assignment
+     */
+    public long getPartialExploredSize() {
+        return partialExplored;
+    }
+
+    /**
+     * @return the number of full successful  solutions explored while
+     * finding the best assignment
+     */
+    public long getFullyExploredSize() {
+        return solutionsExplored;
+    }
+
+    /**
+     * @return the total number of solutions explored while finding the best
+     * assignment
+     */
+    public long getTotalExploredSize() {
+        return partialExplored + solutionsExplored;
+    }
+
+    /**
+     * @return the overall productivity of the best assignment
+     */
+    public int getSolutionProductivity() {
+        return highestProductivity;
+    }
+
+}

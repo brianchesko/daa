@@ -1,0 +1,27 @@
+Enter matrix size
+10
+41	678	642	857	189	533	928	492	480	94	
+28	83	631	788	489	520	709	697	150	319	
+617	66	815	643	435	702	104	29	800	556	
+517	841	235	160	50	424	693	978	268	173	
+73	296	608	704	436	97	576	146	794	726	
+817	763	144	633	406	932	687	862	961	487	
+419	478	680	654	638	731	430	683	61	699	
+856	134	995	816	190	432	913	766	930	59	
+845	747	822	989	732	581	921	772	443	234	
+259	862	713	940	868	703	671	299	387	732	
+Number of partial assignments explored: 46023410
+Number of full assignments explored: 3628800
+Total number of assignments explored: 49652210
+Best job assignment is:
+Person 0 assigned job 6
+Person 1 assigned job 3
+Person 2 assigned job 8
+Person 3 assigned job 7
+Person 4 assigned job 9
+Person 5 assigned job 5
+Person 6 assigned job 4
+Person 7 assigned job 2
+Person 8 assigned job 0
+Person 9 assigned job 1
+Best job assignment cost: 8492

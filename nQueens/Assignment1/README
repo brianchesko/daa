@@ -1,0 +1,15 @@
+Brian Chesko Assignment 1
+DAA Spring 2019
+Dr. Hristescu
+
+Three executables are contained within this folder.
+
+The file "nQueens" is an executable that calculates and outputs the solution for Problem 1.
+Run using "./nQueens" and enter an input size, or alternatively pipe it in (e.g. "echo "4" | ./nQueens)
+
+The file "nQueens_all" calculates and outputs the solution for Problem 2.
+Run in the same way as nQueens.
+
+The file "nQueens_all_no_out" calculates the same information as 2, but skips the printing of
+solutions. This is useful for larger n where the number of outputs would be ridiculous.
+

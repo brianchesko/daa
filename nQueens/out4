@@ -1,0 +1,1073 @@
+Enter a board size: 7
+Now looking at row 0 with starting col 0
+Found good col. Row 0 col 0
+curr arr: 0 -1 -1 -1 -1 -1 -1
+Now looking at row 1 with starting col 0
+Found good col. Row 1 col 2
+curr arr: 0 -3 0 -1 -1 -1 -1
+Now looking at row 2 with starting col 0
+Found good col. Row 2 col 4
+curr arr: 0 -3 4 -1 0 -1 -1
+Now looking at row 3 with starting col 0
+Found good col. Row 3 col 1
+curr arr: 0 2 4 -2 0 -1 -1
+Now looking at row 4 with starting col 0
+Found good col. Row 4 col 3
+curr arr: 0 2 4 1 3 -1 -1
+Now looking at row 5 with starting col 0
+Backtracking, before deletion, we have arr 0 2 4 1 3 -1 -1
+	Deleting column 3 from used
+After deletion, we have arr 0 2 4 -2 3 -1 -1
+Now looking at row 4 with starting col 4
+Backtracking, before deletion, we have arr 0 2 4 -2 3 -1 -1
+	Deleting column 1 from used
+After deletion, we have arr 0 -3 4 -2 3 -1 -1
+Now looking at row 3 with starting col 2
+Found good col. Row 3 col 6
+curr arr: 0 -3 4 -7 3 -1 0
+Now looking at row 4 with starting col 0
+Found good col. Row 4 col 1
+curr arr: 0 2 4 -7 1 -1 0
+Now looking at row 5 with starting col 0
+Found good col. Row 5 col 3
+curr arr: 0 2 4 6 1 -4 0
+Now looking at row 6 with starting col 0
+Found good col. Row 6 col 5
+curr arr: 0 2 4 6 1 3 5
+Visual solution 1 for a 7-dimensional board: 
+Q * * * * * * 
+* * Q * * * * 
+* * * * Q * * 
+* * * * * * Q 
+* Q * * * * * 
+* * * Q * * * 
+* * * * * Q * 
+
+Visual solution 2 for a 7-dimensional board: 
+* * * * * * Q 
+* * * * Q * * 
+* * Q * * * * 
+Q * * * * * * 
+* * * * * Q * 
+* * * Q * * * 
+* Q * * * * * 
+
+Backtracking, before deletion, we have arr 0 2 4 6 1 3 5
+	Deleting column 3 from used
+After deletion, we have arr 0 2 4 -7 1 3 5
+Now looking at row 5 with starting col 4
+Backtracking, before deletion, we have arr 0 2 4 -7 1 3 5
+	Deleting column 1 from used
+After deletion, we have arr 0 -3 4 -7 1 3 5
+Now looking at row 4 with starting col 2
+Found good col. Row 4 col 3
+curr arr: 0 -3 4 6 3 3 5
+Now looking at row 5 with starting col 0
+Backtracking, before deletion, we have arr 0 -3 4 6 3 3 5
+	Deleting column 3 from used
+After deletion, we have arr 0 -3 4 -7 3 3 5
+Now looking at row 4 with starting col 4
+Backtracking, before deletion, we have arr 0 -3 4 -7 3 3 5
+	Deleting column 6 from used
+After deletion, we have arr 0 -3 4 -7 3 3 -6
+Now looking at row 3 with starting col 7
+Backtracking, before deletion, we have arr 0 -3 4 -7 3 3 -6
+	Deleting column 4 from used
+After deletion, we have arr 0 -3 4 -7 -4 3 -6
+Now looking at row 2 with starting col 5
+Found good col. Row 2 col 6
+curr arr: 0 -3 6 -7 -4 3 5
+Now looking at row 3 with starting col 0
+Found good col. Row 3 col 1
+curr arr: 0 2 6 -2 -4 3 5
+Now looking at row 4 with starting col 0
+Found good col. Row 4 col 3
+curr arr: 0 2 6 1 -4 3 5
+Now looking at row 5 with starting col 0
+Backtracking, before deletion, we have arr 0 2 6 1 -4 3 5
+	Deleting column 3 from used
+After deletion, we have arr 0 2 6 -2 -4 3 5
+Now looking at row 4 with starting col 4
+Backtracking, before deletion, we have arr 0 2 6 -2 -4 3 5
+	Deleting column 1 from used
+After deletion, we have arr 0 -3 6 -2 -4 3 5
+Now looking at row 3 with starting col 2
+Backtracking, before deletion, we have arr 0 -3 6 -2 -4 3 5
+	Deleting column 6 from used
+After deletion, we have arr 0 -3 6 -2 -4 3 -6
+Now looking at row 2 with starting col 7
+Backtracking, before deletion, we have arr 0 -3 6 -2 -4 3 -6
+	Deleting column 2 from used
+After deletion, we have arr 0 -3 -7 -2 -4 3 -6
+Now looking at row 1 with starting col 3
+Found good col. Row 1 col 3
+curr arr: 0 -4 -7 1 -4 3 -6
+Now looking at row 2 with starting col 0
+Found good col. Row 2 col 1
+curr arr: 0 3 -2 1 -4 3 -6
+Now looking at row 3 with starting col 0
+Found good col. Row 3 col 4
+curr arr: 0 3 -2 4 3 3 -6
+Now looking at row 4 with starting col 0
+Found good col. Row 4 col 2
+curr arr: 0 3 1 4 2 3 -6
+Now looking at row 5 with starting col 0
+Backtracking, before deletion, we have arr 0 3 1 4 2 3 -6
+	Deleting column 2 from used
+After deletion, we have arr 0 3 -2 4 2 3 -6
+Now looking at row 4 with starting col 3
+Backtracking, before deletion, we have arr 0 3 -2 4 2 3 -6
+	Deleting column 4 from used
+After deletion, we have arr 0 3 -2 4 -3 3 -6
+Now looking at row 3 with starting col 5
+Found good col. Row 3 col 6
+curr arr: 0 3 -2 6 -3 3 5
+Now looking at row 4 with starting col 0
+Found good col. Row 4 col 2
+curr arr: 0 3 1 6 -3 3 5
+Now looking at row 5 with starting col 0
+Backtracking, before deletion, we have arr 0 3 1 6 -3 3 5
+	Deleting column 2 from used
+After deletion, we have arr 0 3 -2 6 -3 3 5
+Now looking at row 4 with starting col 3
+Backtracking, before deletion, we have arr 0 3 -2 6 -3 3 5
+	Deleting column 6 from used
+After deletion, we have arr 0 3 -2 6 -3 3 -6
+Now looking at row 3 with starting col 7
+Backtracking, before deletion, we have arr 0 3 -2 6 -3 3 -6
+	Deleting column 1 from used
+After deletion, we have arr 0 -4 -2 6 -3 3 -6
+Now looking at row 2 with starting col 2
+Found good col. Row 2 col 6
+curr arr: 0 -4 -7 6 -3 3 5
+Now looking at row 3 with starting col 0
+Found good col. Row 3 col 2
+curr arr: 0 -4 6 2 -3 3 5
+Now looking at row 4 with starting col 0
+Backtracking, before deletion, we have arr 0 -4 6 2 -3 3 5
+	Deleting column 2 from used
+After deletion, we have arr 0 -4 -7 2 -3 3 5
+Now looking at row 3 with starting col 3
+Found good col. Row 3 col 4
+curr arr: 0 -4 -7 4 2 3 5
+Now looking at row 4 with starting col 0
+Found good col. Row 4 col 1
+curr arr: 0 3 -7 4 1 3 5
+Now looking at row 5 with starting col 0
+Backtracking, before deletion, we have arr 0 3 -7 4 1 3 5
+	Deleting column 1 from used
+After deletion, we have arr 0 -4 -7 4 1 3 5
+Now looking at row 4 with starting col 2
+Found good col. Row 4 col 2
+curr arr: 0 -4 6 4 2 3 5
+Now looking at row 5 with starting col 0
+Backtracking, before deletion, we have arr 0 -4 6 4 2 3 5
+	Deleting column 2 from used
+After deletion, we have arr 0 -4 -7 4 2 3 5
+Now looking at row 4 with starting col 3
+Backtracking, before deletion, we have arr 0 -4 -7 4 2 3 5
+	Deleting column 4 from used
+After deletion, we have arr 0 -4 -7 4 -3 3 5
+Now looking at row 3 with starting col 5
+Backtracking, before deletion, we have arr 0 -4 -7 4 -3 3 5
+	Deleting column 6 from used
+After deletion, we have arr 0 -4 -7 4 -3 3 -6
+Now looking at row 2 with starting col 7
+Backtracking, before deletion, we have arr 0 -4 -7 4 -3 3 -6
+	Deleting column 3 from used
+After deletion, we have arr 0 -4 -7 -5 -3 3 -6
+Now looking at row 1 with starting col 4
+Found good col. Row 1 col 4
+curr arr: 0 -5 -7 -5 2 3 -6
+Now looking at row 2 with starting col 0
+Found good col. Row 2 col 1
+curr arr: 0 4 -2 -5 2 3 -6
+Now looking at row 3 with starting col 0
+Backtracking, before deletion, we have arr 0 4 -2 -5 2 3 -6
+	Deleting column 1 from used
+After deletion, we have arr 0 -5 -2 -5 2 3 -6
+Now looking at row 2 with starting col 2
+Found good col. Row 2 col 6
+curr arr: 0 -5 -7 -5 2 3 5
+Now looking at row 3 with starting col 0
+Found good col. Row 3 col 1
+curr arr: 0 4 -7 -2 2 3 5
+Now looking at row 4 with starting col 0
+Found good col. Row 4 col 3
+curr arr: 0 4 -7 1 3 3 5
+Now looking at row 5 with starting col 0
+Backtracking, before deletion, we have arr 0 4 -7 1 3 3 5
+	Deleting column 3 from used
+After deletion, we have arr 0 4 -7 -2 3 3 5
+Now looking at row 4 with starting col 4
+Backtracking, before deletion, we have arr 0 4 -7 -2 3 3 5
+	Deleting column 1 from used
+After deletion, we have arr 0 -5 -7 -2 3 3 5
+Now looking at row 3 with starting col 2
+Backtracking, before deletion, we have arr 0 -5 -7 -2 3 3 5
+	Deleting column 6 from used
+After deletion, we have arr 0 -5 -7 -2 3 3 -6
+Now looking at row 2 with starting col 7
+Backtracking, before deletion, we have arr 0 -5 -7 -2 3 3 -6
+	Deleting column 4 from used
+After deletion, we have arr 0 -5 -7 -2 -4 3 -6
+Now looking at row 1 with starting col 5
+Found good col. Row 1 col 6
+curr arr: 0 -7 -7 -2 -4 3 5
+Now looking at row 2 with starting col 0
+Found good col. Row 2 col 1
+curr arr: 0 6 -2 -2 -4 3 5
+Now looking at row 3 with starting col 0
+Backtracking, before deletion, we have arr 0 6 -2 -2 -4 3 5
+	Deleting column 1 from used
+After deletion, we have arr 0 -7 -2 -2 -4 3 5
+Now looking at row 2 with starting col 2
+Found good col. Row 2 col 3
+curr arr: 0 -7 -4 1 -4 3 5
+Now looking at row 3 with starting col 0
+Found good col. Row 3 col 1
+curr arr: 0 6 -4 1 -4 3 5
+Now looking at row 4 with starting col 0
+Backtracking, before deletion, we have arr 0 6 -4 1 -4 3 5
+	Deleting column 1 from used
+After deletion, we have arr 0 -7 -4 1 -4 3 5
+Now looking at row 3 with starting col 2
+Backtracking, before deletion, we have arr 0 -7 -4 1 -4 3 5
+	Deleting column 3 from used
+After deletion, we have arr 0 -7 -4 -2 -4 3 5
+Now looking at row 2 with starting col 4
+Found good col. Row 2 col 4
+curr arr: 0 -7 -5 -2 3 3 5
+Now looking at row 3 with starting col 0
+Found good col. Row 3 col 1
+curr arr: 0 6 -5 -2 3 3 5
+Now looking at row 4 with starting col 0
+Backtracking, before deletion, we have arr 0 6 -5 -2 3 3 5
+	Deleting column 1 from used
+After deletion, we have arr 0 -7 -5 -2 3 3 5
+Now looking at row 3 with starting col 2
+Found good col. Row 3 col 2
+curr arr: 0 -7 4 -3 3 3 5
+Now looking at row 4 with starting col 0
+Backtracking, before deletion, we have arr 0 -7 4 -3 3 3 5
+	Deleting column 2 from used
+After deletion, we have arr 0 -7 -5 -3 3 3 5
+Now looking at row 3 with starting col 3
+Backtracking, before deletion, we have arr 0 -7 -5 -3 3 3 5
+	Deleting column 4 from used
+After deletion, we have arr 0 -7 -5 -3 -4 3 5
+Now looking at row 2 with starting col 5
+Backtracking, before deletion, we have arr 0 -7 -5 -3 -4 3 5
+	Deleting column 6 from used
+After deletion, we have arr 0 -7 -5 -3 -4 3 -6
+Now looking at row 1 with starting col 7
+Backtracking, before deletion, we have arr 0 -7 -5 -3 -4 3 -6
+	Deleting column 0 from used
+After deletion, we have arr -1 -7 -5 -3 -4 3 -6
+Now looking at row 0 with starting col 1
+Found good col. Row 0 col 1
+curr arr: -2 6 -5 -3 -4 3 -6
+Now looking at row 1 with starting col 0
+Found good col. Row 1 col 3
+curr arr: -2 3 -5 2 -4 3 -6
+Now looking at row 2 with starting col 0
+Found good col. Row 2 col 0
+curr arr: 1 3 -1 2 -4 3 -6
+Now looking at row 3 with starting col 0
+Found good col. Row 3 col 2
+curr arr: 1 3 0 2 -4 3 -6
+Now looking at row 4 with starting col 0
+Found good col. Row 4 col 4
+curr arr: 1 3 0 2 4 3 -6
+Now looking at row 5 with starting col 0
+Backtracking, before deletion, we have arr 1 3 0 2 4 3 -6
+	Deleting column 4 from used
+After deletion, we have arr 1 3 0 2 -5 3 -6
+Now looking at row 4 with starting col 5
+Backtracking, before deletion, we have arr 1 3 0 2 -5 3 -6
+	Deleting column 2 from used
+After deletion, we have arr 1 3 -1 2 -5 3 -6
+Now looking at row 3 with starting col 3
+Found good col. Row 3 col 6
+curr arr: 1 3 -1 6 -5 3 5
+Now looking at row 4 with starting col 0
+Found good col. Row 4 col 4
+curr arr: 1 3 -1 6 4 3 5
+Now looking at row 5 with starting col 0
+Found good col. Row 5 col 2
+curr arr: 1 3 0 6 4 2 5
+Now looking at row 6 with starting col 0
+Backtracking, before deletion, we have arr 1 3 0 6 4 2 5
+	Deleting column 2 from used
+After deletion, we have arr 1 3 -1 6 4 2 5
+Now looking at row 5 with starting col 3
+Backtracking, before deletion, we have arr 1 3 -1 6 4 2 5
+	Deleting column 4 from used
+After deletion, we have arr 1 3 -1 6 -5 2 5
+Now looking at row 4 with starting col 5
+Backtracking, before deletion, we have arr 1 3 -1 6 -5 2 5
+	Deleting column 6 from used
+After deletion, we have arr 1 3 -1 6 -5 2 -6
+Now looking at row 3 with starting col 7
+Backtracking, before deletion, we have arr 1 3 -1 6 -5 2 -6
+	Deleting column 0 from used
+After deletion, we have arr -2 3 -1 6 -5 2 -6
+Now looking at row 2 with starting col 1
+Found good col. Row 2 col 6
+curr arr: -2 3 -7 6 -5 2 5
+Now looking at row 3 with starting col 0
+Found good col. Row 3 col 0
+curr arr: 1 3 -7 0 -5 2 5
+Now looking at row 4 with starting col 0
+Found good col. Row 4 col 2
+curr arr: 1 3 6 0 -3 2 5
+Now looking at row 5 with starting col 0
+Found good col. Row 5 col 4
+curr arr: 1 3 6 0 2 4 5
+Now looking at row 6 with starting col 0
+Backtracking, before deletion, we have arr 1 3 6 0 2 4 5
+	Deleting column 4 from used
+After deletion, we have arr 1 3 6 0 -3 4 5
+Now looking at row 5 with starting col 5
+Backtracking, before deletion, we have arr 1 3 6 0 -3 4 5
+	Deleting column 2 from used
+After deletion, we have arr 1 3 -7 0 -3 4 5
+Now looking at row 4 with starting col 3
+Backtracking, before deletion, we have arr 1 3 -7 0 -3 4 5
+	Deleting column 0 from used
+After deletion, we have arr -2 3 -7 0 -3 4 5
+Now looking at row 3 with starting col 1
+Found good col. Row 3 col 2
+curr arr: -2 3 6 2 -3 4 5
+Now looking at row 4 with starting col 0
+Backtracking, before deletion, we have arr -2 3 6 2 -3 4 5
+	Deleting column 2 from used
+After deletion, we have arr -2 3 -7 2 -3 4 5
+Now looking at row 3 with starting col 3
+Backtracking, before deletion, we have arr -2 3 -7 2 -3 4 5
+	Deleting column 6 from used
+After deletion, we have arr -2 3 -7 2 -3 4 -6
+Now looking at row 2 with starting col 7
+Backtracking, before deletion, we have arr -2 3 -7 2 -3 4 -6
+	Deleting column 3 from used
+After deletion, we have arr -2 3 -7 -3 -3 4 -6
+Now looking at row 1 with starting col 4
+Found good col. Row 1 col 4
+curr arr: -2 4 -7 -3 2 4 -6
+Now looking at row 2 with starting col 0
+Found good col. Row 2 col 0
+curr arr: 1 4 -1 -3 2 4 -6
+Now looking at row 3 with starting col 0
+Found good col. Row 3 col 3
+curr arr: 1 4 -1 3 2 4 -6
+Now looking at row 4 with starting col 0
+Found good col. Row 4 col 6
+curr arr: 1 4 -1 3 6 4 5
+Now looking at row 5 with starting col 0
+Found good col. Row 5 col 2
+curr arr: 1 4 0 3 6 2 5
+Now looking at row 6 with starting col 0
+Backtracking, before deletion, we have arr 1 4 0 3 6 2 5
+	Deleting column 2 from used
+After deletion, we have arr 1 4 -1 3 6 2 5
+Now looking at row 5 with starting col 3
+Backtracking, before deletion, we have arr 1 4 -1 3 6 2 5
+	Deleting column 6 from used
+After deletion, we have arr 1 4 -1 3 6 2 -6
+Now looking at row 4 with starting col 7
+Backtracking, before deletion, we have arr 1 4 -1 3 6 2 -6
+	Deleting column 3 from used
+After deletion, we have arr 1 4 -1 -4 6 2 -6
+Now looking at row 3 with starting col 4
+Backtracking, before deletion, we have arr 1 4 -1 -4 6 2 -6
+	Deleting column 0 from used
+After deletion, we have arr -2 4 -1 -4 6 2 -6
+Now looking at row 2 with starting col 1
+Found good col. Row 2 col 2
+curr arr: -2 4 2 -4 6 2 -6
+Now looking at row 3 with starting col 0
+Found good col. Row 3 col 0
+curr arr: 1 4 2 -1 6 2 -6
+Now looking at row 4 with starting col 0
+Found good col. Row 4 col 3
+curr arr: 1 4 2 0 3 2 -6
+Now looking at row 5 with starting col 0
+Backtracking, before deletion, we have arr 1 4 2 0 3 2 -6
+	Deleting column 3 from used
+After deletion, we have arr 1 4 2 -1 3 2 -6
+Now looking at row 4 with starting col 4
+Found good col. Row 4 col 6
+curr arr: 1 4 2 -1 6 2 5
+Now looking at row 5 with starting col 0
+Found good col. Row 5 col 3
+curr arr: 1 4 2 0 6 3 5
+Now looking at row 6 with starting col 0
+Backtracking, before deletion, we have arr 1 4 2 0 6 3 5
+	Deleting column 3 from used
+After deletion, we have arr 1 4 2 -1 6 3 5
+Now looking at row 5 with starting col 4
+Backtracking, before deletion, we have arr 1 4 2 -1 6 3 5
+	Deleting column 6 from used
+After deletion, we have arr 1 4 2 -1 6 3 -6
+Now looking at row 4 with starting col 7
+Backtracking, before deletion, we have arr 1 4 2 -1 6 3 -6
+	Deleting column 0 from used
+After deletion, we have arr -2 4 2 -1 6 3 -6
+Now looking at row 3 with starting col 1
+Backtracking, before deletion, we have arr -2 4 2 -1 6 3 -6
+	Deleting column 2 from used
+After deletion, we have arr -2 4 -3 -1 6 3 -6
+Now looking at row 2 with starting col 3
+Found good col. Row 2 col 6
+curr arr: -2 4 -7 -1 6 3 5
+Now looking at row 3 with starting col 0
+Found good col. Row 3 col 0
+curr arr: 1 4 -7 -1 6 3 5
+Now looking at row 4 with starting col 0
+Found good col. Row 4 col 2
+curr arr: 1 4 6 -1 2 3 5
+Now looking at row 5 with starting col 0
+Backtracking, before deletion, we have arr 1 4 6 -1 2 3 5
+	Deleting column 2 from used
+After deletion, we have arr 1 4 -7 -1 2 3 5
+Now looking at row 4 with starting col 3
+Found good col. Row 4 col 3
+curr arr: 1 4 -7 0 3 3 5
+Now looking at row 5 with starting col 0
+Backtracking, before deletion, we have arr 1 4 -7 0 3 3 5
+	Deleting column 3 from used
+After deletion, we have arr 1 4 -7 -1 3 3 5
+Now looking at row 4 with starting col 4
+Backtracking, before deletion, we have arr 1 4 -7 -1 3 3 5
+	Deleting column 0 from used
+After deletion, we have arr -2 4 -7 -1 3 3 5
+Now looking at row 3 with starting col 1
+Found good col. Row 3 col 3
+curr arr: -2 4 -7 3 3 3 5
+Now looking at row 4 with starting col 0
+Found good col. Row 4 col 0
+curr arr: 1 4 -7 3 0 3 5
+Now looking at row 5 with starting col 0
+Found good col. Row 5 col 2
+curr arr: 1 4 6 3 0 2 5
+Now looking at row 6 with starting col 0
+Backtracking, before deletion, we have arr 1 4 6 3 0 2 5
+	Deleting column 2 from used
+After deletion, we have arr 1 4 -7 3 0 2 5
+Now looking at row 5 with starting col 3
+Backtracking, before deletion, we have arr 1 4 -7 3 0 2 5
+	Deleting column 0 from used
+After deletion, we have arr -2 4 -7 3 0 2 5
+Now looking at row 4 with starting col 1
+Backtracking, before deletion, we have arr -2 4 -7 3 0 2 5
+	Deleting column 3 from used
+After deletion, we have arr -2 4 -7 -4 0 2 5
+Now looking at row 3 with starting col 4
+Backtracking, before deletion, we have arr -2 4 -7 -4 0 2 5
+	Deleting column 6 from used
+After deletion, we have arr -2 4 -7 -4 0 2 -6
+Now looking at row 2 with starting col 7
+Backtracking, before deletion, we have arr -2 4 -7 -4 0 2 -6
+	Deleting column 4 from used
+After deletion, we have arr -2 4 -7 -4 -1 2 -6
+Now looking at row 1 with starting col 5
+Found good col. Row 1 col 6
+curr arr: -2 6 -7 -4 -1 2 5
+Now looking at row 2 with starting col 0
+Found good col. Row 2 col 0
+curr arr: 1 6 -1 -4 -1 2 5
+Now looking at row 3 with starting col 0
+Found good col. Row 3 col 2
+curr arr: 1 6 0 -3 -1 2 5
+Now looking at row 4 with starting col 0
+Found good col. Row 4 col 4
+curr arr: 1 6 0 -3 4 2 5
+Now looking at row 5 with starting col 0
+Backtracking, before deletion, we have arr 1 6 0 -3 4 2 5
+	Deleting column 4 from used
+After deletion, we have arr 1 6 0 -3 -5 2 5
+Now looking at row 4 with starting col 5
+Backtracking, before deletion, we have arr 1 6 0 -3 -5 2 5
+	Deleting column 2 from used
+After deletion, we have arr 1 6 -1 -3 -5 2 5
+Now looking at row 3 with starting col 3
+Found good col. Row 3 col 3
+curr arr: 1 6 -1 3 -5 2 5
+Now looking at row 4 with starting col 0
+Backtracking, before deletion, we have arr 1 6 -1 3 -5 2 5
+	Deleting column 3 from used
+After deletion, we have arr 1 6 -1 -4 -5 2 5
+Now looking at row 3 with starting col 4
+Backtracking, before deletion, we have arr 1 6 -1 -4 -5 2 5
+	Deleting column 0 from used
+After deletion, we have arr -2 6 -1 -4 -5 2 5
+Now looking at row 2 with starting col 1
+Found good col. Row 2 col 2
+curr arr: -2 6 2 -4 -5 2 5
+Now looking at row 3 with starting col 0
+Found good col. Row 3 col 0
+curr arr: 1 6 2 -1 -5 2 5
+Now looking at row 4 with starting col 0
+Backtracking, before deletion, we have arr 1 6 2 -1 -5 2 5
+	Deleting column 0 from used
+After deletion, we have arr -2 6 2 -1 -5 2 5
+Now looking at row 3 with starting col 1
+Backtracking, before deletion, we have arr -2 6 2 -1 -5 2 5
+	Deleting column 2 from used
+After deletion, we have arr -2 6 -3 -1 -5 2 5
+Now looking at row 2 with starting col 3
+Found good col. Row 2 col 4
+curr arr: -2 6 -5 -1 4 2 5
+Now looking at row 3 with starting col 0
+Found good col. Row 3 col 0
+curr arr: 1 6 -5 -1 4 2 5
+Now looking at row 4 with starting col 0
+Backtracking, before deletion, we have arr 1 6 -5 -1 4 2 5
+	Deleting column 0 from used
+After deletion, we have arr -2 6 -5 -1 4 2 5
+Now looking at row 3 with starting col 1
+Found good col. Row 3 col 2
+curr arr: -2 6 4 -3 4 2 5
+Now looking at row 4 with starting col 0
+Found good col. Row 4 col 0
+curr arr: 1 6 4 -3 0 2 5
+Now looking at row 5 with starting col 0
+Found good col. Row 5 col 3
+curr arr: 1 6 4 2 0 3 5
+Now looking at row 6 with starting col 0
+Backtracking, before deletion, we have arr 1 6 4 2 0 3 5
+	Deleting column 3 from used
+After deletion, we have arr 1 6 4 -3 0 3 5
+Now looking at row 5 with starting col 4
+Backtracking, before deletion, we have arr 1 6 4 -3 0 3 5
+	Deleting column 0 from used
+After deletion, we have arr -2 6 4 -3 0 3 5
+Now looking at row 4 with starting col 1
+Backtracking, before deletion, we have arr -2 6 4 -3 0 3 5
+	Deleting column 2 from used
+After deletion, we have arr -2 6 -5 -3 0 3 5
+Now looking at row 3 with starting col 3
+Backtracking, before deletion, we have arr -2 6 -5 -3 0 3 5
+	Deleting column 4 from used
+After deletion, we have arr -2 6 -5 -3 -1 3 5
+Now looking at row 2 with starting col 5
+Backtracking, before deletion, we have arr -2 6 -5 -3 -1 3 5
+	Deleting column 6 from used
+After deletion, we have arr -2 6 -5 -3 -1 3 -6
+Now looking at row 1 with starting col 7
+Backtracking, before deletion, we have arr -2 6 -5 -3 -1 3 -6
+	Deleting column 1 from used
+After deletion, we have arr -2 -7 -5 -3 -1 3 -6
+Now looking at row 0 with starting col 2
+Found good col. Row 0 col 2
+curr arr: -3 -7 4 -3 -1 3 -6
+Now looking at row 1 with starting col 0
+Found good col. Row 1 col 0
+curr arr: 2 -1 4 -3 -1 3 -6
+Now looking at row 2 with starting col 0
+Found good col. Row 2 col 3
+curr arr: 2 -1 3 2 -1 3 -6
+Now looking at row 3 with starting col 0
+Found good col. Row 3 col 1
+curr arr: 2 0 3 1 -1 3 -6
+Now looking at row 4 with starting col 0
+Found good col. Row 4 col 4
+curr arr: 2 0 3 1 4 3 -6
+Now looking at row 5 with starting col 0
+Backtracking, before deletion, we have arr 2 0 3 1 4 3 -6
+	Deleting column 4 from used
+After deletion, we have arr 2 0 3 1 -5 3 -6
+Now looking at row 4 with starting col 5
+Backtracking, before deletion, we have arr 2 0 3 1 -5 3 -6
+	Deleting column 1 from used
+After deletion, we have arr 2 -1 3 1 -5 3 -6
+Now looking at row 3 with starting col 2
+Found good col. Row 3 col 6
+curr arr: 2 -1 3 6 -5 3 5
+Now looking at row 4 with starting col 0
+Found good col. Row 4 col 4
+curr arr: 2 -1 3 6 4 3 5
+Now looking at row 5 with starting col 0
+Found good col. Row 5 col 1
+curr arr: 2 0 3 6 4 1 5
+Now looking at row 6 with starting col 0
+Backtracking, before deletion, we have arr 2 0 3 6 4 1 5
+	Deleting column 1 from used
+After deletion, we have arr 2 -1 3 6 4 1 5
+Now looking at row 5 with starting col 2
+Backtracking, before deletion, we have arr 2 -1 3 6 4 1 5
+	Deleting column 4 from used
+After deletion, we have arr 2 -1 3 6 -5 1 5
+Now looking at row 4 with starting col 5
+Backtracking, before deletion, we have arr 2 -1 3 6 -5 1 5
+	Deleting column 6 from used
+After deletion, we have arr 2 -1 3 6 -5 1 -6
+Now looking at row 3 with starting col 7
+Backtracking, before deletion, we have arr 2 -1 3 6 -5 1 -6
+	Deleting column 3 from used
+After deletion, we have arr 2 -1 3 -7 -5 1 -6
+Now looking at row 2 with starting col 4
+Found good col. Row 2 col 6
+curr arr: 2 -1 6 -7 -5 1 5
+Now looking at row 3 with starting col 0
+Found good col. Row 3 col 1
+curr arr: 2 0 6 -2 -5 1 5
+Now looking at row 4 with starting col 0
+Backtracking, before deletion, we have arr 2 0 6 -2 -5 1 5
+	Deleting column 1 from used
+After deletion, we have arr 2 -1 6 -2 -5 1 5
+Now looking at row 3 with starting col 2
+Found good col. Row 3 col 3
+curr arr: 2 -1 6 3 -5 1 5
+Now looking at row 4 with starting col 0
+Found good col. Row 4 col 1
+curr arr: 2 0 6 3 -2 1 5
+Now looking at row 5 with starting col 0
+Backtracking, before deletion, we have arr 2 0 6 3 -2 1 5
+	Deleting column 1 from used
+After deletion, we have arr 2 -1 6 3 -2 1 5
+Now looking at row 4 with starting col 2
+Backtracking, before deletion, we have arr 2 -1 6 3 -2 1 5
+	Deleting column 3 from used
+After deletion, we have arr 2 -1 6 -4 -2 1 5
+Now looking at row 3 with starting col 4
+Found good col. Row 3 col 4
+curr arr: 2 -1 6 -5 1 1 5
+Now looking at row 4 with starting col 0
+Found good col. Row 4 col 1
+curr arr: 2 0 6 -5 1 1 5
+Now looking at row 5 with starting col 0
+Backtracking, before deletion, we have arr 2 0 6 -5 1 1 5
+	Deleting column 1 from used
+After deletion, we have arr 2 -1 6 -5 1 1 5
+Now looking at row 4 with starting col 2
+Backtracking, before deletion, we have arr 2 -1 6 -5 1 1 5
+	Deleting column 4 from used
+After deletion, we have arr 2 -1 6 -5 -2 1 5
+Now looking at row 3 with starting col 5
+Backtracking, before deletion, we have arr 2 -1 6 -5 -2 1 5
+	Deleting column 6 from used
+After deletion, we have arr 2 -1 6 -5 -2 1 -6
+Now looking at row 2 with starting col 7
+Backtracking, before deletion, we have arr 2 -1 6 -5 -2 1 -6
+	Deleting column 0 from used
+After deletion, we have arr -3 -1 6 -5 -2 1 -6
+Now looking at row 1 with starting col 1
+Found good col. Row 1 col 4
+curr arr: -3 -5 6 -5 1 1 -6
+Now looking at row 2 with starting col 0
+Found good col. Row 2 col 1
+curr arr: -3 4 1 -5 1 1 -6
+Now looking at row 3 with starting col 0
+Found good col. Row 3 col 3
+curr arr: -3 4 1 3 1 1 -6
+Now looking at row 4 with starting col 0
+Found good col. Row 4 col 0
+curr arr: 2 4 1 3 0 1 -6
+Now looking at row 5 with starting col 0
+Found good col. Row 5 col 6
+curr arr: 2 4 1 3 0 6 5
+Now looking at row 6 with starting col 0
+Backtracking, before deletion, we have arr 2 4 1 3 0 6 5
+	Deleting column 6 from used
+After deletion, we have arr 2 4 1 3 0 6 -6
+Now looking at row 5 with starting col 7
+Backtracking, before deletion, we have arr 2 4 1 3 0 6 -6
+	Deleting column 0 from used
+After deletion, we have arr -3 4 1 3 0 6 -6
+Now looking at row 4 with starting col 1
+Backtracking, before deletion, we have arr -3 4 1 3 0 6 -6
+	Deleting column 3 from used
+After deletion, we have arr -3 4 1 -4 0 6 -6
+Now looking at row 3 with starting col 4
+Backtracking, before deletion, we have arr -3 4 1 -4 0 6 -6
+	Deleting column 1 from used
+After deletion, we have arr -3 -5 1 -4 0 6 -6
+Now looking at row 2 with starting col 2
+Found good col. Row 2 col 6
+curr arr: -3 -5 6 -4 0 6 5
+Now looking at row 3 with starting col 0
+Found good col. Row 3 col 0
+curr arr: 2 -5 6 -1 0 6 5
+Now looking at row 4 with starting col 0
+Found good col. Row 4 col 3
+curr arr: 2 -5 6 0 3 6 5
+Now looking at row 5 with starting col 0
+Found good col. Row 5 col 1
+curr arr: 2 4 6 0 3 1 5
+Now looking at row 6 with starting col 0
+Backtracking, before deletion, we have arr 2 4 6 0 3 1 5
+	Deleting column 1 from used
+After deletion, we have arr 2 -5 6 0 3 1 5
+Now looking at row 5 with starting col 2
+Backtracking, before deletion, we have arr 2 -5 6 0 3 1 5
+	Deleting column 3 from used
+After deletion, we have arr 2 -5 6 -1 3 1 5
+Now looking at row 4 with starting col 4
+Backtracking, before deletion, we have arr 2 -5 6 -1 3 1 5
+	Deleting column 0 from used
+After deletion, we have arr -3 -5 6 -1 3 1 5
+Now looking at row 3 with starting col 1
+Found good col. Row 3 col 1
+curr arr: -3 4 6 -2 3 1 5
+Now looking at row 4 with starting col 0
+Found good col. Row 4 col 3
+curr arr: -3 4 6 1 3 1 5
+Now looking at row 5 with starting col 0
+Backtracking, before deletion, we have arr -3 4 6 1 3 1 5
+	Deleting column 3 from used
+After deletion, we have arr -3 4 6 -2 3 1 5
+Now looking at row 4 with starting col 4
+Backtracking, before deletion, we have arr -3 4 6 -2 3 1 5
+	Deleting column 1 from used
+After deletion, we have arr -3 -5 6 -2 3 1 5
+Now looking at row 3 with starting col 2
+Found good col. Row 3 col 3
+curr arr: -3 -5 6 3 3 1 5
+Now looking at row 4 with starting col 0
+Found good col. Row 4 col 0
+curr arr: 2 -5 6 3 0 1 5
+Now looking at row 5 with starting col 0
+Backtracking, before deletion, we have arr 2 -5 6 3 0 1 5
+	Deleting column 0 from used
+After deletion, we have arr -3 -5 6 3 0 1 5
+Now looking at row 4 with starting col 1
+Backtracking, before deletion, we have arr -3 -5 6 3 0 1 5
+	Deleting column 3 from used
+After deletion, we have arr -3 -5 6 -4 0 1 5
+Now looking at row 3 with starting col 4
+Backtracking, before deletion, we have arr -3 -5 6 -4 0 1 5
+	Deleting column 6 from used
+After deletion, we have arr -3 -5 6 -4 0 1 -6
+Now looking at row 2 with starting col 7
+Backtracking, before deletion, we have arr -3 -5 6 -4 0 1 -6
+	Deleting column 4 from used
+After deletion, we have arr -3 -5 6 -4 -1 1 -6
+Now looking at row 1 with starting col 5
+Found good col. Row 1 col 6
+curr arr: -3 -7 6 -4 -1 1 5
+Now looking at row 2 with starting col 0
+Found good col. Row 2 col 1
+curr arr: -3 6 1 -4 -1 1 5
+Now looking at row 3 with starting col 0
+Found good col. Row 3 col 3
+curr arr: -3 6 1 3 -1 1 5
+Now looking at row 4 with starting col 0
+Found good col. Row 4 col 0
+curr arr: 2 6 1 3 -1 1 5
+Now looking at row 5 with starting col 0
+Backtracking, before deletion, we have arr 2 6 1 3 -1 1 5
+	Deleting column 0 from used
+After deletion, we have arr -3 6 1 3 -1 1 5
+Now looking at row 4 with starting col 1
+Backtracking, before deletion, we have arr -3 6 1 3 -1 1 5
+	Deleting column 3 from used
+After deletion, we have arr -3 6 1 -4 -1 1 5
+Now looking at row 3 with starting col 4
+Backtracking, before deletion, we have arr -3 6 1 -4 -1 1 5
+	Deleting column 1 from used
+After deletion, we have arr -3 -7 1 -4 -1 1 5
+Now looking at row 2 with starting col 2
+Found good col. Row 2 col 3
+curr arr: -3 -7 3 3 -1 1 5
+Now looking at row 3 with starting col 0
+Found good col. Row 3 col 0
+curr arr: 2 -7 3 0 -1 1 5
+Now looking at row 4 with starting col 0
+Found good col. Row 4 col 4
+curr arr: 2 -7 3 0 4 1 5
+Now looking at row 5 with starting col 0
+Found good col. Row 5 col 1
+curr arr: 2 6 3 0 4 1 5
+Now looking at row 6 with starting col 0
+Backtracking, before deletion, we have arr 2 6 3 0 4 1 5
+	Deleting column 1 from used
+After deletion, we have arr 2 -7 3 0 4 1 5
+Now looking at row 5 with starting col 2
+Backtracking, before deletion, we have arr 2 -7 3 0 4 1 5
+	Deleting column 4 from used
+After deletion, we have arr 2 -7 3 0 -5 1 5
+Now looking at row 4 with starting col 5
+Backtracking, before deletion, we have arr 2 -7 3 0 -5 1 5
+	Deleting column 0 from used
+After deletion, we have arr -3 -7 3 0 -5 1 5
+Now looking at row 3 with starting col 1
+Found good col. Row 3 col 1
+curr arr: -3 6 3 1 -5 1 5
+Now looking at row 4 with starting col 0
+Found good col. Row 4 col 4
+curr arr: -3 6 3 1 4 1 5
+Now looking at row 5 with starting col 0
+Backtracking, before deletion, we have arr -3 6 3 1 4 1 5
+	Deleting column 4 from used
+After deletion, we have arr -3 6 3 1 -5 1 5
+Now looking at row 4 with starting col 5
+Backtracking, before deletion, we have arr -3 6 3 1 -5 1 5
+	Deleting column 1 from used
+After deletion, we have arr -3 -7 3 1 -5 1 5
+Now looking at row 3 with starting col 2
+Backtracking, before deletion, we have arr -3 -7 3 1 -5 1 5
+	Deleting column 3 from used
+After deletion, we have arr -3 -7 3 -2 -5 1 5
+Now looking at row 2 with starting col 4
+Backtracking, before deletion, we have arr -3 -7 3 -2 -5 1 5
+	Deleting column 6 from used
+After deletion, we have arr -3 -7 3 -2 -5 1 -6
+Now looking at row 1 with starting col 7
+Backtracking, before deletion, we have arr -3 -7 3 -2 -5 1 -6
+	Deleting column 2 from used
+After deletion, we have arr -3 -7 -4 -2 -5 1 -6
+Now looking at row 0 with starting col 3
+Found good col. Row 0 col 3
+curr arr: -4 -7 -4 1 -5 1 -6
+Now looking at row 1 with starting col 0
+Found good col. Row 1 col 0
+curr arr: 3 -1 -4 1 -5 1 -6
+Now looking at row 2 with starting col 0
+Found good col. Row 2 col 2
+curr arr: 3 -1 2 1 -5 1 -6
+Now looking at row 3 with starting col 0
+Found good col. Row 3 col 4
+curr arr: 3 -1 2 4 4 1 -6
+Now looking at row 4 with starting col 0
+Found good col. Row 4 col 1
+curr arr: 3 0 2 4 1 1 -6
+Now looking at row 5 with starting col 0
+Backtracking, before deletion, we have arr 3 0 2 4 1 1 -6
+	Deleting column 1 from used
+After deletion, we have arr 3 -1 2 4 1 1 -6
+Now looking at row 4 with starting col 2
+Found good col. Row 4 col 6
+curr arr: 3 -1 2 4 6 1 5
+Now looking at row 5 with starting col 0
+Found good col. Row 5 col 1
+curr arr: 3 0 2 4 6 1 5
+Now looking at row 6 with starting col 0
+Backtracking, before deletion, we have arr 3 0 2 4 6 1 5
+	Deleting column 1 from used
+After deletion, we have arr 3 -1 2 4 6 1 5
+Now looking at row 5 with starting col 2
+Backtracking, before deletion, we have arr 3 -1 2 4 6 1 5
+	Deleting column 6 from used
+After deletion, we have arr 3 -1 2 4 6 1 -6
+Now looking at row 4 with starting col 7
+Backtracking, before deletion, we have arr 3 -1 2 4 6 1 -6
+	Deleting column 4 from used
+After deletion, we have arr 3 -1 2 4 -7 1 -6
+Now looking at row 3 with starting col 5
+Backtracking, before deletion, we have arr 3 -1 2 4 -7 1 -6
+	Deleting column 2 from used
+After deletion, we have arr 3 -1 -3 4 -7 1 -6
+Now looking at row 2 with starting col 3
+Found good col. Row 2 col 4
+curr arr: 3 -1 -5 4 6 1 -6
+Now looking at row 3 with starting col 0
+Found good col. Row 3 col 1
+curr arr: 3 0 -5 1 6 1 -6
+Now looking at row 4 with starting col 0
+Backtracking, before deletion, we have arr 3 0 -5 1 6 1 -6
+	Deleting column 1 from used
+After deletion, we have arr 3 -1 -5 1 6 1 -6
+Now looking at row 3 with starting col 2
+Backtracking, before deletion, we have arr 3 -1 -5 1 6 1 -6
+	Deleting column 4 from used
+After deletion, we have arr 3 -1 -5 1 -7 1 -6
+Now looking at row 2 with starting col 5
+Found good col. Row 2 col 6
+curr arr: 3 -1 -7 1 -7 1 5
+Now looking at row 3 with starting col 0
+Found good col. Row 3 col 1
+curr arr: 3 0 -7 1 -7 1 5
+Now looking at row 4 with starting col 0
+Backtracking, before deletion, we have arr 3 0 -7 1 -7 1 5
+	Deleting column 1 from used
+After deletion, we have arr 3 -1 -7 1 -7 1 5
+Now looking at row 3 with starting col 2
+Found good col. Row 3 col 4
+curr arr: 3 -1 -7 4 6 1 5
+Now looking at row 4 with starting col 0
+Found good col. Row 4 col 1
+curr arr: 3 0 -7 4 1 1 5
+Now looking at row 5 with starting col 0
+Backtracking, before deletion, we have arr 3 0 -7 4 1 1 5
+	Deleting column 1 from used
+After deletion, we have arr 3 -1 -7 4 1 1 5
+Now looking at row 4 with starting col 2
+Found good col. Row 4 col 2
+curr arr: 3 -1 6 4 2 1 5
+Now looking at row 5 with starting col 0
+Backtracking, before deletion, we have arr 3 -1 6 4 2 1 5
+	Deleting column 2 from used
+After deletion, we have arr 3 -1 -7 4 2 1 5
+Now looking at row 4 with starting col 3
+Backtracking, before deletion, we have arr 3 -1 -7 4 2 1 5
+	Deleting column 4 from used
+After deletion, we have arr 3 -1 -7 4 -3 1 5
+Now looking at row 3 with starting col 5
+Backtracking, before deletion, we have arr 3 -1 -7 4 -3 1 5
+	Deleting column 6 from used
+After deletion, we have arr 3 -1 -7 4 -3 1 -6
+Now looking at row 2 with starting col 7
+Backtracking, before deletion, we have arr 3 -1 -7 4 -3 1 -6
+	Deleting column 0 from used
+After deletion, we have arr -4 -1 -7 4 -3 1 -6
+Now looking at row 1 with starting col 1
+Found good col. Row 1 col 1
+curr arr: -4 1 -7 4 -3 1 -6
+Now looking at row 2 with starting col 0
+Found good col. Row 2 col 4
+curr arr: -4 1 -5 4 2 1 -6
+Now looking at row 3 with starting col 0
+Found good col. Row 3 col 2
+curr arr: -4 1 4 2 2 1 -6
+Now looking at row 4 with starting col 0
+Found good col. Row 4 col 0
+curr arr: 3 1 4 2 0 1 -6
+Now looking at row 5 with starting col 0
+Found good col. Row 5 col 6
+curr arr: 3 1 4 2 0 6 5
+Now looking at row 6 with starting col 0
+Backtracking, before deletion, we have arr 3 1 4 2 0 6 5
+	Deleting column 6 from used
+After deletion, we have arr 3 1 4 2 0 6 -6
+Now looking at row 5 with starting col 7
+Backtracking, before deletion, we have arr 3 1 4 2 0 6 -6
+	Deleting column 0 from used
+After deletion, we have arr -4 1 4 2 0 6 -6
+Now looking at row 4 with starting col 1
+Backtracking, before deletion, we have arr -4 1 4 2 0 6 -6
+	Deleting column 2 from used
+After deletion, we have arr -4 1 -5 2 0 6 -6
+Now looking at row 3 with starting col 3
+Backtracking, before deletion, we have arr -4 1 -5 2 0 6 -6
+	Deleting column 4 from used
+After deletion, we have arr -4 1 -5 2 -1 6 -6
+Now looking at row 2 with starting col 5
+Found good col. Row 2 col 6
+curr arr: -4 1 -7 2 -1 6 5
+Now looking at row 3 with starting col 0
+Found good col. Row 3 col 2
+curr arr: -4 1 6 2 -1 6 5
+Now looking at row 4 with starting col 0
+Found good col. Row 4 col 0
+curr arr: 3 1 6 2 -1 6 5
+Now looking at row 5 with starting col 0
+Backtracking, before deletion, we have arr 3 1 6 2 -1 6 5
+	Deleting column 0 from used
+After deletion, we have arr -4 1 6 2 -1 6 5
+Now looking at row 4 with starting col 1
+Backtracking, before deletion, we have arr -4 1 6 2 -1 6 5
+	Deleting column 2 from used
+After deletion, we have arr -4 1 -7 2 -1 6 5
+Now looking at row 3 with starting col 3
+Found good col. Row 3 col 4
+curr arr: -4 1 -7 4 0 6 5
+Now looking at row 4 with starting col 0
+Found good col. Row 4 col 0
+curr arr: 3 1 -7 4 0 6 5
+Now looking at row 5 with starting col 0
+Backtracking, before deletion, we have arr 3 1 -7 4 0 6 5
+	Deleting column 0 from used
+After deletion, we have arr -4 1 -7 4 0 6 5
+Now looking at row 4 with starting col 1
+Found good col. Row 4 col 2
+curr arr: -4 1 6 4 2 6 5
+Now looking at row 5 with starting col 0
+Found good col. Row 5 col 0
+curr arr: 3 1 6 4 2 0 5
+Now looking at row 6 with starting col 0
+Backtracking, before deletion, we have arr 3 1 6 4 2 0 5
+	Deleting column 0 from used
+After deletion, we have arr -4 1 6 4 2 0 5
+Now looking at row 5 with starting col 1
+Backtracking, before deletion, we have arr -4 1 6 4 2 0 5
+	Deleting column 2 from used
+After deletion, we have arr -4 1 -7 4 2 0 5
+Now looking at row 4 with starting col 3
+Backtracking, before deletion, we have arr -4 1 -7 4 2 0 5
+	Deleting column 4 from used
+After deletion, we have arr -4 1 -7 4 -3 0 5
+Now looking at row 3 with starting col 5
+Backtracking, before deletion, we have arr -4 1 -7 4 -3 0 5
+	Deleting column 6 from used
+After deletion, we have arr -4 1 -7 4 -3 0 -6
+Now looking at row 2 with starting col 7
+Backtracking, before deletion, we have arr -4 1 -7 4 -3 0 -6
+	Deleting column 1 from used
+After deletion, we have arr -4 -2 -7 4 -3 0 -6
+Now looking at row 1 with starting col 2
+Found good col. Row 1 col 6
+curr arr: -4 -7 -7 4 -3 0 5
+Now looking at row 2 with starting col 0
+Found good col. Row 2 col 0
+curr arr: 3 -7 -1 4 -3 0 5
+Now looking at row 3 with starting col 0
+Found good col. Row 3 col 2
+curr arr: 3 -7 0 2 -3 0 5
+Now looking at row 4 with starting col 0
+Found good col. Row 4 col 4
+curr arr: 3 -7 0 2 4 0 5
+Now looking at row 5 with starting col 0
+Found good col. Row 5 col 1
+curr arr: 3 6 0 2 4 1 5
+Now looking at row 6 with starting col 0
+Backtracking, before deletion, we have arr 3 6 0 2 4 1 5
+	Deleting column 1 from used
+After deletion, we have arr 3 -7 0 2 4 1 5
+Now looking at row 5 with starting col 2
+Backtracking, before deletion, we have arr 3 -7 0 2 4 1 5
+	Deleting column 4 from used
+After deletion, we have arr 3 -7 0 2 -5 1 5
+Now looking at row 4 with starting col 5
+Backtracking, before deletion, we have arr 3 -7 0 2 -5 1 5
+	Deleting column 2 from used
+After deletion, we have arr 3 -7 -1 2 -5 1 5
+Now looking at row 3 with starting col 3
+Backtracking, before deletion, we have arr 3 -7 -1 2 -5 1 5
+	Deleting column 0 from used
+After deletion, we have arr -4 -7 -1 2 -5 1 5
+Now looking at row 2 with starting col 1
+Found good col. Row 2 col 2
+curr arr: -4 -7 2 2 -5 1 5
+Now looking at row 3 with starting col 0
+Backtracking, before deletion, we have arr -4 -7 2 2 -5 1 5
+	Deleting column 2 from used
+After deletion, we have arr -4 -7 -3 2 -5 1 5
+Now looking at row 2 with starting col 3
+Found good col. Row 2 col 4
+curr arr: -4 -7 -5 2 4 1 5
+Now looking at row 3 with starting col 0
+Found good col. Row 3 col 1
+curr arr: -4 6 -5 1 4 1 5
+Now looking at row 4 with starting col 0
+Backtracking, before deletion, we have arr -4 6 -5 1 4 1 5
+	Deleting column 1 from used
+After deletion, we have arr -4 -7 -5 1 4 1 5
+Now looking at row 3 with starting col 2
+Found good col. Row 3 col 2
+curr arr: -4 -7 4 2 4 1 5
+Now looking at row 4 with starting col 0
+Found good col. Row 4 col 0
+curr arr: 3 -7 4 2 0 1 5
+Now looking at row 5 with starting col 0
+Backtracking, before deletion, we have arr 3 -7 4 2 0 1 5
+	Deleting column 0 from used
+After deletion, we have arr -4 -7 4 2 0 1 5
+Now looking at row 4 with starting col 1
+Backtracking, before deletion, we have arr -4 -7 4 2 0 1 5
+	Deleting column 2 from used
+After deletion, we have arr -4 -7 -5 2 0 1 5
+Now looking at row 3 with starting col 3
+Backtracking, before deletion, we have arr -4 -7 -5 2 0 1 5
+	Deleting column 4 from used
+After deletion, we have arr -4 -7 -5 2 -1 1 5
+Now looking at row 2 with starting col 5
+Backtracking, before deletion, we have arr -4 -7 -5 2 -1 1 5
+	Deleting column 6 from used
+After deletion, we have arr -4 -7 -5 2 -1 1 -6
+Now looking at row 1 with starting col 7
+Backtracking, before deletion, we have arr -4 -7 -5 2 -1 1 -6
+	Deleting column 3 from used
+After deletion, we have arr -4 -7 -5 -3 -1 1 -6
+2 solutions have been found
+Number of array entry comparisons performed: 1638

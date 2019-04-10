@@ -1,0 +1,35 @@
+Enter matrix size
+12
+376	826	969	461	59	834	550	81	9	172	704	71	
+475	344	62	366	631	992	283	389	372	718	856	22	
+332	826	716	642	855	436	258	583	262	227	44	673	
+62	946	106	423	119	810	494	946	506	908	312	137	
+900	947	526	272	665	735	294	350	913	362	344	768	
+150	602	352	412	830	748	437	244	695	543	667	166	
+353	513	112	211	421	776	348	674	724	227	298	741	
+962	945	91	875	659	787	996	810	390	700	574	572	
+448	12	816	143	555	483	661	261	996	773	472	769	
+902	173	443	978	752	742	719	714	687	163	941	698	
+950	937	508	692	989	83	264	438	95	80	933	2	
+915	595	615	911	720	88	681	622	613	476	600	365	
+== Number of partial assignments explored ==
+	P0: 7242208140 	P1: 40280 	P2: 4153
+==== Number of full assignments explored ===
+	P0: 479001600 	P1: 4376 	P2: 356
+=== Total number of assignments explored ===
+	P0: 7721209740 	P1: 44656 	P2: 4509
+Best job assignment is:
+Person 0 assigned job 2
+Person 1 assigned job 5
+Person 2 assigned job 1
+Person 3 assigned job 7
+Person 4 assigned job 8
+Person 5 assigned job 4
+Person 6 assigned job 11
+Person 7 assigned job 6
+Person 8 assigned job 9
+Person 9 assigned job 3
+Person 10 assigned job 10
+Person 11 assigned job 0
+Best job assignment cost
+	P0: 10812 	P1: 10812 	P2: 10812

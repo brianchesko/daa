@@ -1,0 +1,15 @@
+I felt that this problem was a slightly easier version of the Assignment1
+question, since it essentially used the same backbone but with less
+validation of each position. 
+
+I was able to practice having several loop change conditions that each
+do different things based on whether or not to backtrack and the status
+of different variables.
+
+When I initially did this, the final test input took 4 minutes,
+which felt long although understandable since we're doing an exhaustive
+search on n! possibilities. For speeding this up, I tried to implement
+multiprocessing with multiple threads, but ended up only increasing the
+runtime of the program. I'm not sure why that is, but it went from 4.5
+to 6.5 minutes runtime for n=13. I'll have to do more research for that.
+

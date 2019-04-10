@@ -1,0 +1,238 @@
+Script started on 2019-01-31 19:42:56-05:00
+]0;cheskob2@elvix2:~/DAA/nQueens/finals[cheskob2@elvis finals]$ exitcho "1" | nQueens.nQueens/nQueens
+Enter a board size: 1
+A visual solution for a 1-dimensional board: 
+Q 
+
+Number of array entry comparisons performed: 1
+]0;cheskob2@elvix2:~/DAA/nQueens/finals[cheskob2@elvis finals]$ echo "1" | ./nQueens[C[1P[1@2
+Enter a board size: 2
+No solution for a 2-dimensional board.
+Number of array entry comparisons performed: 4
+]0;cheskob2@elvix2:~/DAA/nQueens/finals[cheskob2@elvis finals]$ echo "2" | ./nQueens[1P[1@3
+Enter a board size: 3
+No solution for a 3-dimensional board.
+Number of array entry comparisons performed: 24
+]0;cheskob2@elvix2:~/DAA/nQueens/finals[cheskob2@elvis finals]$ echo "3" | ./nQueens[1P[1@4
+Enter a board size: 4
+A visual solution for a 4-dimensional board: 
+* Q * * 
+* * * Q 
+Q * * * 
+* * Q * 
+
+Number of array entry comparisons performed: 76
+]0;cheskob2@elvix2:~/DAA/nQueens/finals[cheskob2@elvis finals]$ echo "4" | ./nQueens[1P[1@6
+Enter a board size: 6
+A visual solution for a 6-dimensional board: 
+* Q * * * * 
+* * * Q * * 
+* * * * * Q 
+Q * * * * * 
+* * Q * * * 
+* * * * Q * 
+
+Number of array entry comparisons performed: 640
+]0;cheskob2@elvix2:~/DAA/nQueens/finals[cheskob2@elvis finals]$ echo "6" | ./nQueens[C[C[1P[1@7
+Enter a board size: 7
+A visual solution for a 7-dimensional board: 
+Q * * * * * * 
+* * Q * * * * 
+* * * * Q * * 
+* * * * * * Q 
+* Q * * * * * 
+* * * Q * * * 
+* * * * * Q * 
+
+Number of array entry comparisons performed: 175
+]0;cheskob2@elvix2:~/DAA/nQueens/finals[cheskob2@elvis finals]$ echo "7" | ./nQueens[1P[1@1[1@0
+Enter a board size: 10
+A visual solution for a 10-dimensional board: 
+Q * * * * * * * * * 
+* * Q * * * * * * * 
+* * * * * Q * * * * 
+* * * * * * * Q * * 
+* * * * * * * * * Q 
+* * * * Q * * * * * 
+* * * * * * * * Q * 
+* Q * * * * * * * * 
+* * * Q * * * * * * 
+* * * * * * Q * * * 
+
+Number of array entry comparisons performed: 5458
+]0;cheskob2@elvix2:~/DAA/nQueens/finals[cheskob2@elvis finals]$ echo "10" | ./nQueens[C[1P[1P[1@2[1@0[1P[1@5
+Enter a board size: 25
+A visual solution for a 25-dimensional board: 
+Q * * * * * * * * * * * * * * * * * * * * * * * * 
+* * Q * * * * * * * * * * * * * * * * * * * * * * 
+* * * * Q * * * * * * * * * * * * * * * * * * * * 
+* Q * * * * * * * * * * * * * * * * * * * * * * * 
+* * * Q * * * * * * * * * * * * * * * * * * * * * 
+* * * * * * * * Q * * * * * * * * * * * * * * * * 
+* * * * * * * * * * Q * * * * * * * * * * * * * * 
+* * * * * * * * * * * * Q * * * * * * * * * * * * 
+* * * * * * * * * * * * * * Q * * * * * * * * * * 
+* * * * * * * * * * * * * * * * * * Q * * * * * * 
+* * * * * * * * * * * * * * * * * * * * Q * * * * 
+* * * * * * * * * * * * * * * * * * * * * * * Q * 
+* * * * * * * * * * * * * * * * * * * Q * * * * * 
+* * * * * * * * * * * * * * * * * * * * * * * * Q 
+* * * * * * * * * * * * * * * * * * * * * * Q * * 
+* * * * * Q * * * * * * * * * * * * * * * * * * * 
+* * * * * * * Q * * * * * * * * * * * * * * * * * 
+* * * * * * * * * Q * * * * * * * * * * * * * * * 
+* * * * * * Q * * * * * * * * * * * * * * * * * * 
+* * * * * * * * * * * * * Q * * * * * * * * * * * 
+* * * * * * * * * * * * * * * Q * * * * * * * * * 
+* * * * * * * * * * * * * * * * * Q * * * * * * * 
+* * * * * * * * * * * Q * * * * * * * * * * * * * 
+* * * * * * * * * * * * * * * * Q * * * * * * * * 
+* * * * * * * * * * * * * * * * * * * * * Q * * * 
+
+Number of array entry comparisons performed: 14621059
+]0;cheskob2@elvix2:~/DAA/nQueens/finals[cheskob2@elvis finals]$ ./q[KnQ[K[K[K[Kecho "1[K4" | /[K[K ./nQueens_all [K
+Enter a board size: 4
+Visual solution 1 for a 4-dimensional board: 
+* Q * * 
+* * * Q 
+Q * * * 
+* * Q * 
+
+Visual solution 2 for a 4-dimensional board: 
+* * Q * 
+Q * * * 
+* * * Q 
+* Q * * 
+
+2 solutions have been found
+Number of array entry comparisons performed: 83
+]0;cheskob2@elvix2:~/DAA/nQueens/finals[cheskob2@elvis finals]$ echo "4" | ./nQueens_all[C[C[C_no_out[C
+Enter a board size: 4
+2 solutions have been found
+Number of array entry comparisons performed: 83
+]0;cheskob2@elvix2:~/DAA/nQueens/finals[cheskob2@elvis finals]$ echo "4" | ./nQueens_all_no_out[1P[1@1[1@0[1P[1P[1@7
+Enter a board size: 7
+40 solutions have been found
+Number of array entry comparisons performed: 8065
+]0;cheskob2@elvix2:~/DAA/nQueens/finals[cheskob2@elvis finals]$ echo "7" | ./nQueens_all_no_out[1P[1@1[1@3[1P[1P[1@2[1@0
+Enter a board size: 20
+^C
+]0;cheskob2@elvix2:~/DAA/nQueens/finals[cheskob2@elvis finals]$ echo "20" | ./nQueens_all_no_out[1P[1P[1@1[1@0
+Enter a board size: 10
+724 solutions have been found
+Number of array entry comparisons performed: 827727
+]0;cheskob2@elvix2:~/DAA/nQueens/finals[cheskob2@elvis finals]$ echo "10" | ./nQueens_all_no_out[1P[1@2
+Enter a board size: 12
+14200 solutions have been found
+Number of array entry comparisons performed: 26297404
+]0;cheskob2@elvix2:~/DAA/nQueens/finals[cheskob2@elvis finals]$ echo "12" | ./nQueens_all_no_out[1P[1@4
+Enter a board size: 14
+365596 solutions have been found
+Number of array entry comparisons performed: 1048888545
+]0;cheskob2@elvix2:~/DAA/nQueens/finals[cheskob2@elvis finals]$ \time [K[K[K[K[K[Ktime echo [K[K[K[K[K[K[K[K[K[Ktime |[K( echo "14"[K[K0"[K[K4" | ./nQueens_all_no_out )
+Enter a board size: 14
+365596 solutions have been found
+Number of array entry comparisons performed: 1048888545
+
+real	0m5.021s
+user	0m4.996s
+sys	0m0.003s
+]0;cheskob2@elvix2:~/DAA/nQueens/finals[cheskob2@elvis finals]$ time ( echo "14" | ./nQueens_all_no_out )[1P )[1P )[1P )[1P )[1P )[1P )[1P )[1P )[1P )[1P )[1P )[C[1P[1P[1@2[1@0[1P[1P[1@1[1@9
+Enter a board size: 19
+A visual solution for a 19-dimensional board: 
+Q * * * * * * * * * * * * * * * * * * 
+* * Q * * * * * * * * * * * * * * * * 
+* * * * Q * * * * * * * * * * * * * * 
+* Q * * * * * * * * * * * * * * * * * 
+* * * Q * * * * * * * * * * * * * * * 
+* * * * * * * * Q * * * * * * * * * * 
+* * * * * * * * * * * * Q * * * * * * 
+* * * * * * * * * * * * * * Q * * * * 
+* * * * * * * * * * * * * * * * Q * * 
+* * * * * * * * * * * * * * * * * * Q 
+* * * * * * Q * * * * * * * * * * * * 
+* * * * * * * * * * * * * * * Q * * * 
+* * * * * * * * * * * * * * * * * Q * 
+* * * * * * * * * * Q * * * * * * * * 
+* * * * * Q * * * * * * * * * * * * * 
+* * * * * * * Q * * * * * * * * * * * 
+* * * * * * * * * Q * * * * * * * * * 
+* * * * * * * * * * * Q * * * * * * * 
+* * * * * * * * * * * * * Q * * * * * 
+
+Number of array entry comparisons performed: 440572
+
+real	0m0.006s
+user	0m0.005s
+sys	0m0.003s
+]0;cheskob2@elvix2:~/DAA/nQueens/finals[cheskob2@elvis finals]$ time ( echo "19" | ./nQueens )[1P[1P[1@2[1@1
+Enter a board size: 21
+A visual solution for a 21-dimensional board: 
+Q * * * * * * * * * * * * * * * * * * * * 
+* * Q * * * * * * * * * * * * * * * * * * 
+* * * * Q * * * * * * * * * * * * * * * * 
+* Q * * * * * * * * * * * * * * * * * * * 
+* * * Q * * * * * * * * * * * * * * * * * 
+* * * * * * * * Q * * * * * * * * * * * * 
+* * * * * * * * * * Q * * * * * * * * * * 
+* * * * * * * * * * * * * * Q * * * * * * 
+* * * * * * * * * * * * * * * * * * * * Q 
+* * * * * * * * * * * * * * * * * Q * * * 
+* * * * * * * * * * * * * * * * * * * Q * 
+* * * * * * * * * * * * * * * * Q * * * * 
+* * * * * * * * * * * * * * * * * * Q * * 
+* * * * * * Q * * * * * * * * * * * * * * 
+* * * * * * * * * * * Q * * * * * * * * * 
+* * * * * * * * * Q * * * * * * * * * * * 
+* * * * * * * Q * * * * * * * * * * * * * 
+* * * * * Q * * * * * * * * * * * * * * * 
+* * * * * * * * * * * * * Q * * * * * * * 
+* * * * * * * * * * * * * * * Q * * * * * 
+* * * * * * * * * * * * Q * * * * * * * * 
+
+Number of array entry comparisons performed: 1783336
+
+real	0m0.015s
+user	0m0.012s
+sys	0m0.004s
+]0;cheskob2@elvix2:~/DAA/nQueens/finals[cheskob2@elvis finals]$ time ( echo "21" | ./nQueens )[1P[1@5
+Enter a board size: 25
+A visual solution for a 25-dimensional board: 
+Q * * * * * * * * * * * * * * * * * * * * * * * * 
+* * Q * * * * * * * * * * * * * * * * * * * * * * 
+* * * * Q * * * * * * * * * * * * * * * * * * * * 
+* Q * * * * * * * * * * * * * * * * * * * * * * * 
+* * * Q * * * * * * * * * * * * * * * * * * * * * 
+* * * * * * * * Q * * * * * * * * * * * * * * * * 
+* * * * * * * * * * Q * * * * * * * * * * * * * * 
+* * * * * * * * * * * * Q * * * * * * * * * * * * 
+* * * * * * * * * * * * * * Q * * * * * * * * * * 
+* * * * * * * * * * * * * * * * * * Q * * * * * * 
+* * * * * * * * * * * * * * * * * * * * Q * * * * 
+* * * * * * * * * * * * * * * * * * * * * * * Q * 
+* * * * * * * * * * * * * * * * * * * Q * * * * * 
+* * * * * * * * * * * * * * * * * * * * * * * * Q 
+* * * * * * * * * * * * * * * * * * * * * * Q * * 
+* * * * * Q * * * * * * * * * * * * * * * * * * * 
+* * * * * * * Q * * * * * * * * * * * * * * * * * 
+* * * * * * * * * Q * * * * * * * * * * * * * * * 
+* * * * * * Q * * * * * * * * * * * * * * * * * * 
+* * * * * * * * * * * * * Q * * * * * * * * * * * 
+* * * * * * * * * * * * * * * Q * * * * * * * * * 
+* * * * * * * * * * * * * * * * * Q * * * * * * * 
+* * * * * * * * * * * Q * * * * * * * * * * * * * 
+* * * * * * * * * * * * * * * * Q * * * * * * * * 
+* * * * * * * * * * * * * * * * * * * * * Q * * * 
+
+Number of array entry comparisons performed: 14621059
+
+real	0m0.098s
+user	0m0.095s
+sys	0m0.003s
+]0;cheskob2@elvix2:~/DAA/nQueens/finals[cheskob2@elvis finals]$ time ( echo "25" | ./nQueens )[C[C[C[1P[1P[1@2[1@0[1P[1P[1@3[1@0
+Enter a board size: 30
+^C
+]0;cheskob2@elvix2:~/DAA/nQueens/finals[cheskob2@elvis finals]$ exit
+exit
+
+Script done on 2019-01-31 19:50:48-05:00

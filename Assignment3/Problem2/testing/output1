@@ -1,0 +1,21 @@
+Enter matrix size
+7
+35	10	15	38	16	22	25	
+2	36	22	7	19	2	8	
+10	21	8	26	21	12	39	
+26	32	6	15	29	32	26	
+35	7	10	30	17	17	21	
+34	0	38	28	36	21	28	
+7	15	36	9	36	4	35	
+Number of partial assignments explored: 6
+Number of full assignments explored: 1
+Total number of assignments explored: 7
+Best job assignment is:
+Person 0 assigned job 3
+Person 1 assigned job 1
+Person 2 assigned job 6
+Person 3 assigned job 5
+Person 4 assigned job 0
+Person 5 assigned job 2
+Person 6 assigned job 4
+Best job assignment cost: 254
