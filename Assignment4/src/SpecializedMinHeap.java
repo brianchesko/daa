@@ -44,6 +44,10 @@ public class SpecializedMinHeap implements SpecializedMinHeapInterface {
                 heapIndices[i] = i;
                 minHeap[i] = new Data(i, Integer.MAX_VALUE);
             }
+
+            for (int i = numVertices; i < heapIndices.length; i++) {
+                heapIndices[i] = -1;
+            }
         }
     }
 
@@ -86,26 +90,115 @@ public class SpecializedMinHeap implements SpecializedMinHeapInterface {
             return true;
         }
 
-        // bubble up to position satisfying min heap property
-        int parentIndex = (currentIndex + 1) / 2;
-        Data parent = minHeap[parentIndex];
-
-        // stop when it's at the top or min heap satisfied
-        while (parentIndex != currentIndex || parent.getValue() > newNode.getValue()) {
-            // swap parent and new node
-            minHeap[parentIndex] = newNode;
-            minHeap[currentIndex] = parent;
-            heapIndices[parent.getVertex()] = currentIndex;
-            heapIndices[newNode.getVertex()] = parentIndex;
-
-            // set new current index and update parent info
-            currentIndex = parentIndex;
-            parentIndex = (currentIndex + 1) / 2;
-            parent = minHeap[parentIndex];
-        }
+        heapFilterUp(currentIndex);
 
         this.numVertices++;
         return true;
+    }
+
+    /**
+     * Does not check for good input. "Bubbles up" the heap into the correct position
+     * so that the array becomes heapified starting at the specified index.
+     * @param index Index of the node in the heap array to filter up.
+     */
+    private void heapFilterUp(int index) {
+        Data node = minHeap[index];
+        // bubble up to position satisfying min heap property
+        int parentIndex = (index + 1) / 2;
+        Data parent = minHeap[parentIndex];
+
+        // stop when it's at the top or min heap satisfied
+        while (parentIndex != index || parent.getValue() > node.getValue()) {
+            // swap parent and new node
+            minHeap[parentIndex] = node;
+            minHeap[index] = parent;
+            heapIndices[parent.getVertex()] = index;
+            heapIndices[node.getVertex()] = parentIndex;
+
+            // set new current index and update parent info
+            index = parentIndex;
+            parentIndex = (index + 1) / 2;
+            parent = minHeap[parentIndex];
+        }
+    }
+
+    /**
+     * Does not check for good input. "Trickles down" the heap into the correct position
+     * so that the array becomes heapified starting at the specified index.
+     * @param index Index of the node in the heap array to filter up.
+     */
+    private void heapFilterDown(int index) {
+        // index is used as the working index.
+        Data node = minHeap[index];
+        boolean heapified;
+
+        do {
+            heapified = true;
+            int smallerChildIndex = index;
+            int smallestVal = minHeap[smallerChildIndex].getValue();
+            int leftIndex = 2 * index + 1;
+            int rightIndex = 2 * index + 2;
+
+            if (leftIndex < numVertices) {
+                if (minHeap[leftIndex].getValue() < smallestVal) {
+                    smallerChildIndex = leftIndex;
+                    smallestVal = smallerChildIndex;
+                }
+
+                if (rightIndex < numVertices && minHeap[rightIndex].getValue() < smallestVal) {
+                    smallerChildIndex = rightIndex;
+                }
+
+                // There is a swap to be done
+                if (smallerChildIndex != index) {
+                    heapified = false;
+
+                    // Place child into parent spot
+                    minHeap[index] = minHeap[heapIndices[smallerChildIndex]];
+                    // Place parent into child spot
+                    minHeap[smallerChildIndex] = node;
+
+                    heapIndices[smallerChildIndex] = index;
+                    heapIndices[index] = smallerChildIndex;
+                }
+            }
+        } while (!heapified);
+    }
+
+    private Data deleteNode(int index) {
+        if (index >= numVertices || index < 0) {
+            return null;
+        }
+
+        // Delete node. Insert what's in the right most bottom index into the deleted index. heapify.
+        Data toDelete = minHeap[index];
+        int rightMostIndex = numVertices - 1;
+        Data rightMost = minHeap[rightMostIndex];
+        int parentIndex = (index + 1) / 2;
+        numVertices--;
+
+        minHeap[index] = rightMost;
+        minHeap[rightMostIndex] = null;
+        heapIndices[rightMost.getVertex()] = index;
+        heapIndices[toDelete.getVertex()] = -1;
+
+        // If the new replacement node is smaller than its new parent, bubble up
+        // otherwise trickle down
+        if (rightMost.getValue() < minHeap[parentIndex].getValue()) {
+            heapFilterUp(index);
+        } else {
+            heapFilterDown(index);
+        }
+
+        return toDelete;
+    }
+
+    private Data deleteVertex(int vertex) {
+        if (vertex < 0 || vertex > heapIndices.length) {
+            return null;
+        }
+
+        return deleteNode(heapIndices[vertex]);
     }
 
     /**
@@ -114,7 +207,7 @@ public class SpecializedMinHeap implements SpecializedMinHeapInterface {
      * @return the wrapper for the vertex deleted
      */
     public Data deleteMin() {
-        return null;   
+        return deleteNode(0);
     }
 
     /**
@@ -125,6 +218,36 @@ public class SpecializedMinHeap implements SpecializedMinHeapInterface {
      * false otherwise
      */
     public boolean decreaseKey(int vertex, int newValue) {
-        return false;
+        if (vertex >= heapIndices.length || heapIndices[vertex] == -1) {
+            return false;
+        }
+
+        deleteNode(heapIndices[vertex]);
+        insert(vertex, newValue);
+
+        return true;
+    }
+
+    public void printInfo() {
+        System.out.print("\t");
+        for (int i = 0; i < heapIndices.length; i++) {
+            System.out.printf("%d\t", i);
+        }
+        System.out.println();
+        System.out.print("HI:\n");
+        for (int heapIndex : heapIndices) {
+            System.out.printf("%d\t", heapIndex);
+        }
+        System.out.println();
+        System.out.print("HVal:\t");
+        for (int i = 0; i < heapIndices.length; i++) {
+            System.out.printf("%d\t", minHeap[i].getValue());
+        }
+        System.out.println();
+        System.out.print("HVert:\t");
+        for (int i = 0; i < heapIndices.length; i++) {
+            System.out.printf("%d\t", minHeap[i].getVertex());
+        }
+        System.out.println();
     }
 }
