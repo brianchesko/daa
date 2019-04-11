@@ -63,12 +63,11 @@ public class SpecializedMinHeap implements SpecializedMinHeapInterface {
      * @return the outcome of the insertion
      */
     public boolean insert(int vertex, int value) {
-        // That vertex already exists.
+        // That vertex already exists, quit early.
         if (vertex < heapIndices.length && heapIndices[vertex] != -1) {
             return false;
         }
-        System.out.println("Inserting new val. Current: ");
-        printInfo();
+
         // Resize arrays if too small
         if (vertex >= minHeap.length) {
             // Make sure the new arrays are at least big enough to fit the new vertex.
@@ -83,16 +82,13 @@ public class SpecializedMinHeap implements SpecializedMinHeapInterface {
                 newHeapIndices[i] = heapIndices[i];
             }
 
-            // initialize new entryies
+            // initialize new entries
             for (int i = minHeap.length; i < newSize; i++) {
                 newHeapIndices[i] = -1;
             }
 
             this.minHeap = newMinHeap;
             this.heapIndices = newHeapIndices;
-
-            System.out.println("Post copy. Current: ");
-            printInfo();
         }
 
         int currentIndex = numVertices;
@@ -100,16 +96,10 @@ public class SpecializedMinHeap implements SpecializedMinHeapInterface {
         // insert in leaf position
         this.heapIndices[vertex] = currentIndex;
         this.minHeap[currentIndex] = newNode;
-
-        System.out.println("Adding new vert to end. Current: ");
-        printInfo();
+        this.numVertices++;
 
         heapFilterUp(currentIndex);
 
-        System.out.println("Post heap. Current: ");
-        printInfo();
-
-        this.numVertices++;
         return true;
     }
 
@@ -136,8 +126,6 @@ public class SpecializedMinHeap implements SpecializedMinHeapInterface {
             index = parentIndex;
             parentIndex = (index - 1) / 2;
             parent = minHeap[parentIndex];
-            System.out.println("After filter iter. Current: ");
-            printInfo();
         }
     }
 
@@ -276,7 +264,11 @@ public class SpecializedMinHeap implements SpecializedMinHeapInterface {
         return true;
     }
 
-    public void printInfo() {
+    /**
+     * Debug method. Prints out a table displaying the state of the heap, including the contents
+     * of the heap and the array that tracks where each vertex lies in the heap.
+     */
+    private void printInfo() {
         System.out.println();
         System.out.print("\t");
         for (int i = 0; i < heapIndices.length; i++) {
