@@ -1,7 +1,7 @@
 
 
 public class SpecializedMinHeap implements SpecializedMinHeapInterface {
-    private final int INITIAL_SIZE = 5; // initial min size of empty heap arrays
+    private static final int INITIAL_SIZE = 5; // initial min size of empty heap arrays
     private int numVertices;
     private int[] heapIndices;
     private Data[] minHeap;
@@ -217,7 +217,7 @@ public class SpecializedMinHeap implements SpecializedMinHeapInterface {
         int parentIndex = (index - 1) / 2;
         // If the new replacement node is smaller than its new parent, bubble up
         // otherwise trickle down
-        if (parentIndex >= 0 && numVertices > 0) {
+        if (numVertices > 1) {
             if (beingShifted.getValue() < minHeap[parentIndex].getValue()) {
                 heapFilterUp(index);
             } else {
