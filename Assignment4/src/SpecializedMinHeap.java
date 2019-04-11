@@ -40,14 +40,14 @@ public class SpecializedMinHeap implements SpecializedMinHeapInterface {
 
             // All vertices after the source are in the position corresponding to
             // the index equalling that vertex, but still infinite distance.
-            for (int i = source; i < numVertices; i++) {
+            for (int i = source + 1; i < numVertices; i++) {
                 heapIndices[i] = i;
                 minHeap[i] = new Data(i, Integer.MAX_VALUE);
             }
+        }
 
-            for (int i = numVertices; i < heapIndices.length; i++) {
-                heapIndices[i] = -1;
-            }
+        for (int i = numVertices; i < heapIndices.length; i++) {
+            heapIndices[i] = -1;
         }
     }
 
@@ -64,19 +64,27 @@ public class SpecializedMinHeap implements SpecializedMinHeapInterface {
      * @return the outcome of the insertion
      */
     public boolean insert(int vertex, int value) {
+        // That vertex already exists.
+        if (vertex < heapIndices.length && heapIndices[vertex] != -1) {
+            return false;
+        }
+        System.out.println("Inserting new val. Current: ");
+        printInfo();
         // Resize arrays if too small
         if (numVertices == minHeap.length) {
             Data[] newMinHeap = new Data[numVertices * 2];
             int[] newHeapIndices = new int[numVertices * 2];
 
             // copy old info
-            for (int i = 0; i < numVertices * 2; i++) {
+            for (int i = 0; i < numVertices; i++) {
                 newMinHeap[i] = minHeap[i];
                 newHeapIndices[i] = heapIndices[i];
             }
 
             this.minHeap = newMinHeap;
             this.heapIndices = newHeapIndices;
+            System.out.println("Post copy. Current: ");
+            printInfo();
         }
 
         int currentIndex = numVertices;
@@ -85,12 +93,13 @@ public class SpecializedMinHeap implements SpecializedMinHeapInterface {
         this.heapIndices[vertex] = currentIndex;
         this.minHeap[currentIndex] = newNode;
 
-        // no shifts needed, exit immediately
-        if (numVertices == 0) {
-            return true;
-        }
+        System.out.println("Adding new vert to end. Current: ");
+        printInfo();
 
         heapFilterUp(currentIndex);
+
+        System.out.println("Post heap. Current: ");
+        printInfo();
 
         this.numVertices++;
         return true;
@@ -104,11 +113,11 @@ public class SpecializedMinHeap implements SpecializedMinHeapInterface {
     private void heapFilterUp(int index) {
         Data node = minHeap[index];
         // bubble up to position satisfying min heap property
-        int parentIndex = (index + 1) / 2;
+        int parentIndex = (index - 1) / 2;
         Data parent = minHeap[parentIndex];
 
         // stop when it's at the top or min heap satisfied
-        while (parentIndex != index || parent.getValue() > node.getValue()) {
+        while (parentIndex != index && parent.getValue() > node.getValue()) {
             // swap parent and new node
             minHeap[parentIndex] = node;
             minHeap[index] = parent;
@@ -117,8 +126,10 @@ public class SpecializedMinHeap implements SpecializedMinHeapInterface {
 
             // set new current index and update parent info
             index = parentIndex;
-            parentIndex = (index + 1) / 2;
+            parentIndex = (index - 1) / 2;
             parent = minHeap[parentIndex];
+            System.out.println("After filter iter. Current: ");
+            printInfo();
         }
     }
 
@@ -142,7 +153,7 @@ public class SpecializedMinHeap implements SpecializedMinHeapInterface {
             if (leftIndex < numVertices) {
                 if (minHeap[leftIndex].getValue() < smallestVal) {
                     smallerChildIndex = leftIndex;
-                    smallestVal = smallerChildIndex;
+                    smallestVal = minHeap[smallerChildIndex].getValue();
                 }
 
                 if (rightIndex < numVertices && minHeap[rightIndex].getValue() < smallestVal) {
@@ -154,12 +165,14 @@ public class SpecializedMinHeap implements SpecializedMinHeapInterface {
                     heapified = false;
 
                     // Place child into parent spot
-                    minHeap[index] = minHeap[heapIndices[smallerChildIndex]];
+                    minHeap[index] = minHeap[smallerChildIndex];
                     // Place parent into child spot
                     minHeap[smallerChildIndex] = node;
 
                     heapIndices[smallerChildIndex] = index;
                     heapIndices[index] = smallerChildIndex;
+
+                    index = smallerChildIndex;
                 }
             }
         } while (!heapified);
@@ -174,7 +187,7 @@ public class SpecializedMinHeap implements SpecializedMinHeapInterface {
         Data toDelete = minHeap[index];
         int rightMostIndex = numVertices - 1;
         Data rightMost = minHeap[rightMostIndex];
-        int parentIndex = (index + 1) / 2;
+        int parentIndex = (index - 1) / 2;
         numVertices--;
 
         minHeap[index] = rightMost;
@@ -184,11 +197,14 @@ public class SpecializedMinHeap implements SpecializedMinHeapInterface {
 
         // If the new replacement node is smaller than its new parent, bubble up
         // otherwise trickle down
-        if (rightMost.getValue() < minHeap[parentIndex].getValue()) {
-            heapFilterUp(index);
-        } else {
-            heapFilterDown(index);
+        if (parentIndex >= 0 && numVertices > 0) {
+            if (rightMost.getValue() < minHeap[parentIndex].getValue()) {
+                heapFilterUp(index);
+            } else {
+                heapFilterDown(index);
+            }
         }
+
 
         return toDelete;
     }
@@ -203,7 +219,7 @@ public class SpecializedMinHeap implements SpecializedMinHeapInterface {
 
     /**
      * Deletes the vertex with the smallest value from the min heap.
-     * 
+     *
      * @return the wrapper for the vertex deleted
      */
     public Data deleteMin() {
@@ -213,7 +229,7 @@ public class SpecializedMinHeap implements SpecializedMinHeapInterface {
     /**
      * Attempts, if possible, to decrease the value of the given vertex
      * to a new value. Moves the vertex to the correct new position in
-     * the heap. 
+     * the heap.
      * @return true if the vertex decreased in value and was moved,
      * false otherwise
      */
@@ -229,25 +245,38 @@ public class SpecializedMinHeap implements SpecializedMinHeapInterface {
     }
 
     public void printInfo() {
+        System.out.println();
         System.out.print("\t");
         for (int i = 0; i < heapIndices.length; i++) {
             System.out.printf("%d\t", i);
         }
         System.out.println();
-        System.out.print("HI:\n");
+        System.out.print("HI:\t");
         for (int heapIndex : heapIndices) {
             System.out.printf("%d\t", heapIndex);
         }
         System.out.println();
         System.out.print("HVal:\t");
         for (int i = 0; i < heapIndices.length; i++) {
-            System.out.printf("%d\t", minHeap[i].getValue());
+            System.out.printf("%d\t", minHeap[i] == null ? null : minHeap[i].getValue());
         }
         System.out.println();
         System.out.print("HVert:\t");
         for (int i = 0; i < heapIndices.length; i++) {
-            System.out.printf("%d\t", minHeap[i].getVertex());
+            System.out.printf("%d\t", minHeap[i] == null ? null : minHeap[i].getVertex());
         }
         System.out.println();
+        int pow = 0;
+        int sum = 0;
+        while (sum < numVertices) {
+            int i = 0;
+            while (i < Math.pow(2, pow) && sum < numVertices) {
+                System.out.printf("%d\t", minHeap[sum].getValue());
+                i++;
+                sum++;
+            }
+            System.out.println();
+            pow++;
+        }
     }
 }
