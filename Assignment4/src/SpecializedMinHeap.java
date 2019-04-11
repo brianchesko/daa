@@ -79,6 +79,10 @@ public class SpecializedMinHeap implements SpecializedMinHeapInterface {
                 newHeapIndices[i] = heapIndices[i];
             }
 
+            for (int i = numVertices; i < newMinHeap.length; i++) {
+                newHeapIndices[i] = -1;
+            }
+
             this.minHeap = newMinHeap;
             this.heapIndices = newHeapIndices;
             System.out.println("Post copy. Current: ");
