@@ -19,8 +19,9 @@ public class SpecializedMinHeap implements SpecializedMinHeapInterface {
      * are given a value of Integer.MAX_VALUE.
      */
     public SpecializedMinHeap(int source, int numVertices) {
-        this.heapIndices = new int[numVertices > INITIAL_SIZE ? numVertices : INITIAL_SIZE];
-        this.minHeap = new Data[numVertices > INITIAL_SIZE ? numVertices : INITIAL_SIZE];
+        int arraySize = numVertices > INITIAL_SIZE ? numVertices : INITIAL_SIZE;
+        this.heapIndices = new int[arraySize];
+        this.minHeap = new Data[arraySize];
         this.numVertices = numVertices;
 
         if (numVertices > 0) {
@@ -69,22 +70,27 @@ public class SpecializedMinHeap implements SpecializedMinHeapInterface {
         System.out.println("Inserting new val. Current: ");
         printInfo();
         // Resize arrays if too small
-        if (numVertices == minHeap.length) {
-            Data[] newMinHeap = new Data[numVertices * 2];
-            int[] newHeapIndices = new int[numVertices * 2];
+        if (vertex >= minHeap.length) {
+            // Make sure the new arrays are at least big enough to fit the new vertex.
+            int doubleCurrentSize = minHeap.length * 2;
+            int newSize = vertex < doubleCurrentSize ? doubleCurrentSize : vertex + 1;
+            Data[] newMinHeap = new Data[newSize];
+            int[] newHeapIndices = new int[newSize];
 
             // copy old info
-            for (int i = 0; i < numVertices; i++) {
+            for (int i = 0; i < minHeap.length; i++) {
                 newMinHeap[i] = minHeap[i];
                 newHeapIndices[i] = heapIndices[i];
             }
 
-            for (int i = numVertices; i < newMinHeap.length; i++) {
+            // initialize new entryies
+            for (int i = minHeap.length; i < newSize; i++) {
                 newHeapIndices[i] = -1;
             }
 
             this.minHeap = newMinHeap;
             this.heapIndices = newHeapIndices;
+
             System.out.println("Post copy. Current: ");
             printInfo();
         }
