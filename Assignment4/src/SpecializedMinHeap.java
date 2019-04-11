@@ -1,7 +1,7 @@
 
 
 public class SpecializedMinHeap implements SpecializedMinHeapInterface {
-    private final int INITIAL_SIZE = 8; // initial min size of empty heap arrays
+    private final int INITIAL_SIZE = 5; // initial min size of empty heap arrays
     private int numVertices;
     private int[] heapIndices;
     private Data[] minHeap;
