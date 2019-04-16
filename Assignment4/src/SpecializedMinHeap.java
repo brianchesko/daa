@@ -1,5 +1,3 @@
-
-
 public class SpecializedMinHeap implements SpecializedMinHeapInterface {
     private static final int INITIAL_SIZE = 5; // initial min size of empty heap arrays
     private int numVertices;
@@ -165,8 +163,8 @@ public class SpecializedMinHeap implements SpecializedMinHeapInterface {
                     // Place parent into child spot
                     minHeap[smallerChildIndex] = node;
 
-                    heapIndices[smallerChildIndex] = index;
-                    heapIndices[index] = smallerChildIndex;
+                    heapIndices[minHeap[index].getVertex()] = index;
+                    heapIndices[node.getVertex()] = smallerChildIndex;
 
                     index = smallerChildIndex;
                 }
@@ -268,7 +266,7 @@ public class SpecializedMinHeap implements SpecializedMinHeapInterface {
      * Debug method. Prints out a table displaying the state of the heap, including the contents
      * of the heap and the array that tracks where each vertex lies in the heap.
      */
-    private void printInfo() {
+    public void printInfo() {
         System.out.println();
         System.out.print("\t");
         for (int i = 0; i < heapIndices.length; i++) {
