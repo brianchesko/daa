@@ -4,7 +4,7 @@ public class MST{
     
     public static void main(String args[]) throws IOException{
         int numVert = IOTools.promptPositiveInteger("Enter the number " + 
-          "of vertices");
+          "of vertices ");
         Edge[] edges = new Edge[numVert];
         int[] parent = new int[numVert];
         int[] distance = new int[numVert];
@@ -21,18 +21,38 @@ public class MST{
         }
 
         int numEdge = IOTools.promptPositiveInteger("Enter the number " + 
-          "of edges");
+          "of edges ");
         for(int i = 0; i < numEdge; i++){
             int edge1 = IOTools.promptInteger("Enter the first " + 
-                "edge");
+                "edge ");
             int edge2 = IOTools.promptInteger("Enter the second" + 
-                " edge");
-            int weight = IOTools.promptInteger("Enter the weight");
+                " edge ");
+            int weight = IOTools.promptInteger("Enter the weight ");
             
             edges[edge1] = new Edge(edge2, weight, edges[edge1]);
             
             edges[edge2] = new Edge(edge1, weight, edges[edge2]);    
         }
-            
+        Data u;
+        int vert;
+        int nextV;
+        Edge e;
+        while(!heap.isEmpty()){
+            u = heap.deleteMin();
+            vert = u.getVertex();
+            visit[vert] = true;
+            System.out.println(parent[vert] + " " + vert + " with " +
+                                "distance of " + distance[vert]);
+            e = edges[vert];
+            do{
+                nextV = e.getNextVert();
+                if(!visit[nextV] && e.getWeight() < distance[nextV]){
+                    distance[nextV] = e.getWeight();
+                    heap.decreaseKey(nextV, distance[nextV]);
+                    parent[nextV] = vert;
+                }
+                e = e.getNextE();
+            }while(e != null);
+        } 
     }
 }
