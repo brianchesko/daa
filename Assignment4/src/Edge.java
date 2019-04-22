@@ -1,12 +1,12 @@
 public class Edge{
     private int nextVert;
     private int weight;
-    private Edge nextE;
+    private Edge nextEdge;
 
-    public Edge(int nextVert, int weight, Edge nextE){
+    public Edge(int nextVert, int weight, Edge nextEdge){
         this.nextVert = nextVert;
         this.weight = weight;
-        this.nextE = nextE;
+        this.nextEdge = nextEdge;
     }
 
     public int getNextVert(){
@@ -15,8 +15,8 @@ public class Edge{
     public int getWeight(){
         return weight;
     }
-    public Edge getNextE(){
-        return nextE;
+    public Edge getNextEdge(){
+        return nextEdge;
     }       
         
 
@@ -27,7 +27,7 @@ public class Edge{
     public void setWeight(int weight){
         this.weight = weight;
     }
-    public void setNextE(Edge e){
-        this.nextE = e;
+    public void setNextEdge(Edge e){
+        this.nextEdge = e;
     }
 }
