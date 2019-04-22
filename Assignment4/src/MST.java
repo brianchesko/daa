@@ -1,5 +1,11 @@
 import java.io.IOException;
 
+/**
+ * Finds a minimum spanning tree for a given graph.
+ * Authors: Joseph Leclercq and Brian Chesko
+ * Status: Completed and tested
+ * Version: 2019.04.22
+ */
 public class MST {
 
     public static void main(String[] args) throws IOException {
@@ -19,6 +25,7 @@ public class MST {
 
         int[][] mst = findMinimumSpanningTree(edges);
 
+        System.out.println("Minimum spanning tree:");
         // Start at vertex 1 since 0 is the root.
         for (int i = 1; i < numVert; i++) {
             System.out.printf("%d %d %d\n", mst[i][0], i, mst[i][1]);
