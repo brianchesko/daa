@@ -4,28 +4,10 @@ public class MST {
 
     public static void main(String[] args) throws IOException {
         int numVert = IOTools.promptPositiveInteger("Enter the number of vertices: ");
-        SpecializedMinHeap heap = new SpecializedMinHeap(0, numVert);
-        Edge[] edges    = new Edge[numVert];
-        int[] parent    = new int[numVert];
-        int[] distance  = new int[numVert];
-        boolean[] visit = new boolean[numVert];
-
-        // Initialize arrays to default values
-        for (int i = 0; i < numVert; i++) {
-            parent[i] = -1;
-            distance[i] = Integer.MAX_VALUE;
-            visit[i] = false;
-        }
-
-        distance[0] = 0;
-
-        for (int i = 0; i < numVert; i++) {
-            heap.insert(i, distance[i]);
-        }
-
         int numEdge = IOTools.promptPositiveInteger("Enter the number of edges: ");
         System.out.println("Enter all edges in the following format, one number per line: vertex 1, vertex 2, " +
                 "weight from v1 to v2.");
+        Edge[] edges  = new Edge[numVert];
         for (int i = 0; i < numEdge; i++) {
             int vert1 = IOTools.promptInteger("");
             int vert2 = IOTools.promptInteger("");
@@ -33,6 +15,42 @@ public class MST {
 
             edges[vert1] = new Edge(vert2, weight, edges[vert1]);
             edges[vert2] = new Edge(vert1, weight, edges[vert2]);
+        }
+
+        int[][] mst = findMinimumSpanningTree(edges);
+
+        // Start at vertex 1 since 0 is the root.
+        for (int i = 1; i < numVert; i++) {
+            System.out.printf("%d %d %d\n", mst[i][0], i, mst[i][1]);
+        }
+    }
+
+    /**
+     * Finds the minimum spanning tree (MST) for a given graph
+     * @return a 2D array holding the parent vertex and distance for each vertex in the MST.
+     * result[i, 0] is the parent vertex of vertex i
+     * result[i, 1] is the weight to the parent vertex of i in the MST
+     */
+    private static int[][] findMinimumSpanningTree(Edge[] graph) {
+        int numVertices = graph.length;
+        int[][] result = new int[numVertices][2];
+        SpecializedMinHeap heap = new SpecializedMinHeap(0, numVertices);
+        int[] parent    = new int[numVertices];
+        int[] distance  = new int[numVertices];
+        boolean[] visit = new boolean[numVertices];
+
+        // Initialize arrays to default values
+        for (int i = 0; i < numVertices; i++) {
+            parent[i] = -1;
+            distance[i] = Integer.MAX_VALUE;
+            visit[i] = false;
+        }
+
+        // Root node always has a distance of 0
+        distance[0] = 0;
+
+        for (int i = 0; i < numVertices; i++) {
+            heap.insert(i, distance[i]);
         }
 
         Data u;
@@ -43,12 +61,7 @@ public class MST {
             u = heap.deleteMin();
             vert = u.getVertex();
             visit[vert] = true;
-            // Only print edges that exist
-            if (parent[vert] != -1) {
-                System.out.println(parent[vert] + " " + vert + " " +
-                        " " + distance[vert]);
-            }
-            e = edges[vert];
+            e = graph[vert];
             do {
                 nextV = e.getNextVert();
                 if (!visit[nextV] && e.getWeight() < distance[nextV]) {
@@ -59,5 +72,12 @@ public class MST {
                 e = e.getNextEdge();
             } while (e != null);
         }
+
+        for (int i = 0; i < numVertices; i++) {
+            result[i][0] = parent[i];
+            result[i][1] = distance[i];
+        }
+
+        return result;
     }
 }
