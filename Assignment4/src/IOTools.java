@@ -56,6 +56,25 @@ public class IOTools {
     }
 
     /**
+     * Prompts the user for an integer with a given prompt without echoing.
+     * Asks again if the response is not an integer.
+     * @param prompt The prompt to start the user with.
+     * @return A valid integer, chosen by the user.
+     * @throws IOException if input is invalid
+     */
+    public static int promptIntegerSilent(String prompt) throws IOException {
+        System.out.print(prompt);
+        String response;
+
+        while (!(response = readLineSilent().trim()).matches(INT_FORMAT)) {
+            System.out.print("\tThat is not a valid input. Please enter "
+                + "an integer: ");
+        }
+
+        return Integer.parseInt(response);
+    }
+
+    /**
      * Prompts the user for a positive integer with a given prompt.
      * Asks again if the response is not a positive integer.
      * @param prompt The prompt to start the user with.
@@ -131,6 +150,15 @@ public class IOTools {
         String result = reader.readLine();
         System.out.println(result);
         return result;
+    }
+
+    /**
+     * Reads a line from the input stream and does not echo the result.
+     * @return the input entered
+     * @throws IOException if input is invalid
+     */
+    public static String readLineSilent() throws IOException {
+        return reader.readLine();
     }
 
 }

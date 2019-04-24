@@ -15,13 +15,15 @@ public class MST {
                 "weight from v1 to v2.");
         Edge[] edges  = new Edge[numVert];
         for (int i = 0; i < numEdge; i++) {
-            int vert1 = IOTools.promptInteger("");
-            int vert2 = IOTools.promptInteger("");
-            int weight = IOTools.promptInteger("");
+            int vert1 = IOTools.promptIntegerSilent("");
+            int vert2 = IOTools.promptIntegerSilent("");
+            int weight = IOTools.promptIntegerSilent("");
 
             edges[vert1] = new Edge(vert2, weight, edges[vert1]);
             edges[vert2] = new Edge(vert1, weight, edges[vert2]);
         }
+
+        System.out.println("All edges entered.");
 
         int[][] mst = findMinimumSpanningTree(edges);
 
