@@ -1,0 +1,9 @@
+Joseph Leclercq
+Assignment 4 Conclusions
+
+Working on this lab allowed to me further understand the process behind
+finding a MST. Before, I did not have a strong understanding of the 
+algorithm, but the implementation forced me to learn it. Also, I had to
+relearn heaps for this assignment, which I previously had forgotten. 
+Overall, I mainly learned how to use graphs, and the way one is 
+represented in code.
