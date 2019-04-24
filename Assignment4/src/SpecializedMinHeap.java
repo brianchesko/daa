@@ -266,7 +266,7 @@ public class SpecializedMinHeap implements SpecializedMinHeapInterface {
      * Debug method. Prints out a table displaying the state of the heap, including the contents
      * of the heap and the array that tracks where each vertex lies in the heap.
      */
-    public void printInfo() {
+    private void printInfo() {
         System.out.println();
         System.out.print("\t");
         for (int i = 0; i < heapIndices.length; i++) {
@@ -300,5 +300,18 @@ public class SpecializedMinHeap implements SpecializedMinHeapInterface {
             System.out.println();
             pow++;
         }
+    }
+
+    /**
+     * Returns a string representation of the heap
+     * @return A string representation of the heap
+     */
+    public String toString() {
+        StringBuilder output = new StringBuilder();
+        for (int i = 0; i < numVertices; i++) {
+            output.append(minHeap[i].getValue() + "\t");
+        }
+        output.append("\n");
+        return output.toString();
     }
 }

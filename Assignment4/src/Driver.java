@@ -71,7 +71,7 @@ public class Driver {
                     }
                     break;
                 case 5:
-                    heap.printInfo();
+                    System.out.println(heap.toString());
                     break;
                 default:
                     System.out.println("Not an acceptable menu selection");
