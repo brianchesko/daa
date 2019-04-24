@@ -1,0 +1,10 @@
+Brian Chesko
+Assignment 4 Conclusions
+
+Like Joe, I also had to relearn and understand heaps to implement this
+assignment. I came to appreciate the simplicity and power of heaps
+since they have so much utility for such a simple data structure. 
+
+I also got to use GitHub and automated testing some more (although basic
+since it was implemented using bash scripts), which was cool as a team. 
+

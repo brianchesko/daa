@@ -1,0 +1,25 @@
+::::::::::::::
+Assignment4ConclusionsChesko.txt
+::::::::::::::
+Brian Chesko
+Assignment 4 Conclusions
+
+Like Joe, I also had to relearn and understand heaps to implement this
+assignment. I came to appreciate the simplicity and power of heaps
+since they have so much utility for such a simple data structure. 
+
+I also got to use GitHub and automated testing some more (although basic
+since it was implemented using bash scripts), which was cool as a team. 
+
+::::::::::::::
+Assignment4ConclusionsLeclercq.txt
+::::::::::::::
+Joseph Leclercq
+Assignment 4 Conclusions
+
+Working on this lab allowed to me further understand the process behind
+finding a MST. Before, I did not have a strong understanding of the 
+algorithm, but the implementation forced me to learn it. Also, I had to
+relearn heaps for this assignment, which I previously had forgotten. 
+Overall, I mainly learned how to use graphs, and the way one is 
+represented in code.
