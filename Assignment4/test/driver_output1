@@ -1,0 +1,76 @@
+
+Select from the following menu:
+    0.	Exit the program.
+    1.	Check if MinHeap is empty.
+    2.	Insert key, value in MinHeap.
+    3.	Delete min value from MinHeap.
+    4.	Decrease key's value in MinHeap.
+    5.	Display items in MinHeap in array order.
+
+
+Make your menu selection now: 2
+What is the key you are are adding?0
+What is the value you are adding?65
+
+Make your menu selection now: 2
+What is the key you are are adding?1
+What is the value you are adding?54
+
+Make your menu selection now: 2
+What is the key you are are adding?2
+What is the value you are adding?34
+
+Make your menu selection now: 2
+What is the key you are are adding?3
+What is the value you are adding?23
+
+Make your menu selection now: 2
+What is the key you are are adding?4
+What is the value you are adding?10
+
+Make your menu selection now: 2
+What is the key you are are adding?5
+What is the value you are adding?2
+
+Make your menu selection now: 5
+2	23	10	65	34	54	
+
+
+Make your menu selection now: 3
+
+Make your menu selection now: 5
+10	23	54	65	34	
+
+
+Make your menu selection now: 3
+
+Make your menu selection now: 5
+23	34	54	65	
+
+
+Make your menu selection now: 3
+
+Make your menu selection now: 5
+34	65	54	
+
+
+Make your menu selection now: 3
+
+Make your menu selection now: 5
+54	65	
+
+
+Make your menu selection now: 3
+
+Make your menu selection now: 5
+65	
+
+
+Make your menu selection now: 3
+
+Make your menu selection now: 5
+
+
+
+Make your menu selection now: 0
+Goodbye!
