@@ -1,0 +1,1048 @@
+::::::::::::::
+srcFiles
+::::::::::::::
+::::::::::::::
+Driver.java
+::::::::::::::
+/*
+ * Purpose: Design and Analysis of Algorithms Assignment 4
+ * Status: Complete and thoroughly tested
+ * Last update: 04/18/18
+ * Submitted:  04/18/18
+ * Comment: test suite and sample run attached
+ * @author: Brian Chesko and Joseph Leclercq
+ * @version: 2018.04.18
+ */
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.IOException;
+
+public class Driver {
+    private static BufferedReader stdin = new BufferedReader(new InputStreamReader(System.in));
+    public static void main(String args[]) throws IOException {
+        SpecializedMinHeap heap = new SpecializedMinHeap();
+        int command;
+        int key;
+        int value;
+        System.out.println();
+        System.out.println("Select from the following menu:\n" +
+                           "    0.	Exit the program.\n" +
+                           "    1.	Check if MinHeap is empty.\n" +
+                           "    2.	Insert key, value in MinHeap.\n" +
+                           "    3.	Delete min value from MinHeap.\n" +
+                           "    4.	Decrease key's value in MinHeap.\n" +
+                           "    5.	Display items in MinHeap in array" +
+                           " order.\n");
+        System.out.println();
+
+        do {
+            command = IOTools.promptInteger("Make your menu selection "
+                + "now: ", 0, 6);
+            switch (command) {
+                case 0:
+                    System.out.println("Goodbye!");
+                    System.exit(1);
+                    break;
+                case 1:
+                    if(heap.isEmpty()){
+                        System.out.println("The heap is empty");    
+                    }
+                    else{
+                        System.out.println("The heap is not empty");    
+                    }
+                    break;
+                case 2:
+                    key = IOTools.promptInteger("What is the" + 
+                                " key you are are adding?",0,
+                                Integer.MAX_VALUE);
+                    value = IOTools.promptPositiveInteger("What is " +
+                                "the value you are adding?");
+                    heap.insert(key, value);
+                    break;
+                case 3:
+                    heap.deleteMin();
+                    break;
+                case 4:
+                    key = IOTools.promptInteger("What is the" + 
+                                " key you are are decreasing?",0,
+                                Integer.MAX_VALUE);
+                    value = IOTools.promptPositiveInteger("What is " +
+                                "the new value you are lowering to?");
+                    if(heap.decreaseKey(key, value)){
+                        System.out.println("Value lowered");
+                    }
+                    else{
+                        System.out.println("Not a valid key");
+                    }
+                    break;
+                case 5:
+                    System.out.println(heap.toString());
+                    break;
+                default:
+                    System.out.println("Not an acceptable menu selection");
+            }
+            System.out.println();
+        } while(true);
+    }
+}
+::::::::::::::
+SpecializedMinHeapInterface.java
+::::::::::::::
+public interface SpecializedMinHeapInterface {
+//specialized MinHeap for use with Prim's or Dijkstra's; assumes vertices are numbered 0..numvertices-1 and one of them is the source 
+
+public boolean isEmpty();
+//returns true if empty, false otherwise
+
+public boolean insert(int vertex, int value);
+//inserts in MinHeap and returns outcome
+
+public Data deleteMin();
+//returns reference to object that has been removed 
+
+public boolean decreaseKey(int vertex, int newvalue);
+//decreases to newvalue the value of the specified vertex (if lower) and returns the outcome
+
+}// end SpecializedMinHeapInterface 
+::::::::::::::
+SpecializedMinHeap.java
+::::::::::::::
+public class SpecializedMinHeap implements SpecializedMinHeapInterface {
+    private static final int INITIAL_SIZE = 5; // initial min size of empty heap arrays
+    private int numVertices;
+    private int[] heapIndices;
+    private Data[] minHeap;
+
+    /**
+     * Initializes an empty min heap with no vertices.
+     */
+    public SpecializedMinHeap() {
+        this(-1, 0);
+    }
+
+    /**
+     * Initializes the min heap with a @param numVertices number of vertices.
+     * The source vertex is given a value of 0 and the remaining vertices
+     * are given a value of Integer.MAX_VALUE.
+     */
+    public SpecializedMinHeap(int source, int numVertices) {
+        int arraySize = numVertices > INITIAL_SIZE ? numVertices : INITIAL_SIZE;
+        this.heapIndices = new int[arraySize];
+        this.minHeap = new Data[arraySize];
+        this.numVertices = numVertices;
+
+        if (numVertices > 0) {
+            // Initial location for all vertices before source is that vertex + 1
+            // to account for the shift caused by putting the source at the head of
+            // the max heap.
+            for (int i = 0; i < source; i++) {
+                heapIndices[i] = i + 1;
+                minHeap[i + 1] = new Data(i, Integer.MAX_VALUE);
+            }
+
+            // Put source at top of the max heap with distance 0.
+            heapIndices[source] = 0;
+            minHeap[0] = new Data(source, 0);
+
+            // All vertices after the source are in the position corresponding to
+            // the index equalling that vertex, but still infinite distance.
+            for (int i = source + 1; i < numVertices; i++) {
+                heapIndices[i] = i;
+                minHeap[i] = new Data(i, Integer.MAX_VALUE);
+            }
+        }
+
+        for (int i = numVertices; i < heapIndices.length; i++) {
+            heapIndices[i] = -1;
+        }
+    }
+
+    /**
+     * @return true if the min heap is empty, false otherwise.
+     */
+    public boolean isEmpty() {
+        return numVertices == 0;
+    }
+
+    /**
+     * Inserts a new vertex into the min heap with a given value.
+     *
+     * @return the outcome of the insertion
+     */
+    public boolean insert(int vertex, int value) {
+        // That vertex already exists, quit early.
+        if (vertex < heapIndices.length && heapIndices[vertex] != -1) {
+            return false;
+        }
+
+        // Resize arrays if too small
+        if (vertex >= minHeap.length) {
+            // Make sure the new arrays are at least big enough to fit the new vertex.
+            int doubleCurrentSize = minHeap.length * 2;
+            int newSize = vertex < doubleCurrentSize ? doubleCurrentSize : vertex + 1;
+            Data[] newMinHeap = new Data[newSize];
+            int[] newHeapIndices = new int[newSize];
+
+            // copy old info
+            for (int i = 0; i < minHeap.length; i++) {
+                newMinHeap[i] = minHeap[i];
+                newHeapIndices[i] = heapIndices[i];
+            }
+
+            // initialize new entries
+            for (int i = minHeap.length; i < newSize; i++) {
+                newHeapIndices[i] = -1;
+            }
+
+            this.minHeap = newMinHeap;
+            this.heapIndices = newHeapIndices;
+        }
+
+        int currentIndex = numVertices;
+        Data newNode = new Data(vertex, value);
+        // insert in leaf position
+        this.heapIndices[vertex] = currentIndex;
+        this.minHeap[currentIndex] = newNode;
+        this.numVertices++;
+
+        heapFilterUp(currentIndex);
+
+        return true;
+    }
+
+    /**
+     * Does not check for good input. "Bubbles up" the heap into the correct position
+     * so that the array becomes heapified starting at the specified index.
+     * @param index Index of the node in the heap array to filter up.
+     */
+    private void heapFilterUp(int index) {
+        Data node = minHeap[index];
+        // bubble up to position satisfying min heap property
+        int parentIndex = (index - 1) / 2;
+        Data parent = minHeap[parentIndex];
+
+        // stop when it's at the top or min heap satisfied
+        while (parentIndex != index && parent.getValue() > node.getValue()) {
+            // swap parent and new node
+            minHeap[parentIndex] = node;
+            minHeap[index] = parent;
+            heapIndices[parent.getVertex()] = index;
+            heapIndices[node.getVertex()] = parentIndex;
+
+            // set new current index and update parent info
+            index = parentIndex;
+            parentIndex = (index - 1) / 2;
+            parent = minHeap[parentIndex];
+        }
+    }
+
+    /**
+     * Does not check for good input. "Trickles down" the heap into the correct position
+     * so that the array becomes heapified starting at the specified index.
+     * @param index Index of the node in the heap array to filter up.
+     */
+    private void heapFilterDown(int index) {
+        // index is used as the working index.
+        Data node = minHeap[index];
+        boolean heapified;
+
+        do {
+            heapified = true;
+            int smallerChildIndex = index;
+            int smallestVal = minHeap[smallerChildIndex].getValue();
+            int leftIndex = 2 * index + 1;
+            int rightIndex = 2 * index + 2;
+
+            if (leftIndex < numVertices) {
+                if (minHeap[leftIndex].getValue() < smallestVal) {
+                    smallerChildIndex = leftIndex;
+                    smallestVal = minHeap[smallerChildIndex].getValue();
+                }
+
+                if (rightIndex < numVertices && minHeap[rightIndex].getValue() < smallestVal) {
+                    smallerChildIndex = rightIndex;
+                }
+
+                // There is a swap to be done
+                if (smallerChildIndex != index) {
+                    heapified = false;
+
+                    // Place child into parent spot
+                    minHeap[index] = minHeap[smallerChildIndex];
+                    // Place parent into child spot
+                    minHeap[smallerChildIndex] = node;
+
+                    heapIndices[minHeap[index].getVertex()] = index;
+                    heapIndices[node.getVertex()] = smallerChildIndex;
+
+                    index = smallerChildIndex;
+                }
+            }
+        } while (!heapified);
+    }
+
+    private Data deleteNode(int index) {
+        if (index >= numVertices || index < 0) {
+            return null;
+        }
+
+        // Delete node. Insert what's in the right most bottom index into the deleted index. heapify.
+        Data toDelete = minHeap[index];
+        int rightMostIndex = numVertices - 1;
+        Data rightMost = minHeap[rightMostIndex];
+        numVertices--;
+
+        minHeap[index] = rightMost;
+        minHeap[rightMostIndex] = null;
+        heapIndices[rightMost.getVertex()] = index;
+        heapIndices[toDelete.getVertex()] = -1;
+
+        heapFilterUpOrDown(index);
+
+        return toDelete;
+    }
+
+    private Data deleteVertex(int vertex) {
+        if (vertex < 0 || vertex > heapIndices.length) {
+            return null;
+        }
+
+        return deleteNode(heapIndices[vertex]);
+    }
+
+    /**
+     * Deletes the vertex with the smallest value from the min heap.
+     *
+     * @return the wrapper for the vertex deleted
+     */
+    public Data deleteMin() {
+        return deleteNode(0);
+    }
+
+    private void heapFilterUpOrDown(int index) {
+        Data beingShifted = minHeap[index];
+        int parentIndex = (index - 1) / 2;
+        // If the new replacement node is smaller than its new parent, bubble up
+        // otherwise trickle down
+        if (numVertices > 1) {
+            if (beingShifted.getValue() < minHeap[parentIndex].getValue()) {
+                heapFilterUp(index);
+            } else {
+                heapFilterDown(index);
+            }
+        }
+    }
+
+    /**
+     * Attempts, if possible, to modify the value of the given vertex
+     * to a new value. Moves the vertex to the correct new position in
+     * the heap if it has changed.
+     * @return true if the vertex decreased in value and was moved,
+     * false otherwise
+     */
+    public boolean changeKey(int vertex, int newValue) {
+        if (vertex >= heapIndices.length || heapIndices[vertex] == -1) {
+            return false;
+        }
+
+        int index = heapIndices[vertex];
+        minHeap[index].setValue(newValue);
+        heapFilterUpOrDown(index);
+
+        return true;
+    }
+
+    /**
+     * Attempts, if possible, to decrease the value of the given vertex
+     * to a new value. Moves the vertex to the correct new position in
+     * the heap if it has changed.
+     * @return true if the vertex decreased in value and was moved,
+     * false otherwise
+     */
+    public boolean decreaseKey(int vertex, int newValue) {
+        if (vertex >= heapIndices.length || heapIndices[vertex] == -1) {
+            return false;
+        }
+
+        int index = heapIndices[vertex];
+        minHeap[index].setValue(newValue);
+        heapFilterUp(index);
+
+        return true;
+    }
+
+    /**
+     * Debug method. Prints out a table displaying the state of the heap, including the contents
+     * of the heap and the array that tracks where each vertex lies in the heap.
+     */
+    private void printInfo() {
+        System.out.println();
+        System.out.print("\t");
+        for (int i = 0; i < heapIndices.length; i++) {
+            System.out.printf("%d\t", i);
+        }
+        System.out.println();
+        System.out.print("HI:\t");
+        for (int heapIndex : heapIndices) {
+            System.out.printf("%d\t", heapIndex);
+        }
+        System.out.println();
+        System.out.print("HVal:\t");
+        for (int i = 0; i < heapIndices.length; i++) {
+            System.out.printf("%d\t", minHeap[i] == null ? null : minHeap[i].getValue());
+        }
+        System.out.println();
+        System.out.print("HVert:\t");
+        for (int i = 0; i < heapIndices.length; i++) {
+            System.out.printf("%d\t", minHeap[i] == null ? null : minHeap[i].getVertex());
+        }
+        System.out.println();
+        int pow = 0;
+        int sum = 0;
+        while (sum < numVertices) {
+            int i = 0;
+            while (i < Math.pow(2, pow) && sum < numVertices) {
+                System.out.printf("%d\t", minHeap[sum].getValue());
+                i++;
+                sum++;
+            }
+            System.out.println();
+            pow++;
+        }
+    }
+
+    /**
+     * Returns a string representation of the heap
+     * @return A string representation of the heap
+     */
+    public String toString() {
+        StringBuilder output = new StringBuilder();
+        for (int i = 0; i < numVertices; i++) {
+            output.append(minHeap[i].getValue() + "\t");
+        }
+        output.append("\n");
+        return output.toString();
+    }
+}
+::::::::::::::
+Data.java
+::::::::::::::
+public class Data
+{
+    private int value;
+    private int vertex;
+
+    public Data(int vertex, int value) {
+        this.value = value;
+        this.vertex = vertex;
+    }
+
+    public void setVertex(int vertex) {
+        this.vertex = vertex;
+    }
+
+    public void setValue(int value) {
+        this.value = value;
+    }
+
+    public int getVertex() {
+        return vertex;
+    }
+
+    public int getValue() {
+        return value;
+    }
+
+}
+::::::::::::::
+MST.java
+::::::::::::::
+import java.io.IOException;
+
+/**
+ * Finds a minimum spanning tree for a given graph.
+ * Authors: Joseph Leclercq and Brian Chesko
+ * Status: Completed and tested
+ * Version: 2019.04.22
+ */
+public class MST {
+
+    public static void main(String[] args) throws IOException {
+        int numVert = IOTools.promptPositiveInteger("Enter the number of vertices: ");
+        int numEdge = IOTools.promptPositiveInteger("Enter the number of edges: ");
+        System.out.println("Enter all edges in the following format, one number per line: vertex 1, vertex 2, " +
+                "weight from v1 to v2.");
+        Edge[] edges  = new Edge[numVert];
+        for (int i = 0; i < numEdge; i++) {
+            int vert1 = IOTools.promptIntegerSilent("");
+            int vert2 = IOTools.promptIntegerSilent("");
+            int weight = IOTools.promptIntegerSilent("");
+
+            edges[vert1] = new Edge(vert2, weight, edges[vert1]);
+            edges[vert2] = new Edge(vert1, weight, edges[vert2]);
+        }
+
+        System.out.println("All edges entered.");
+
+        int[][] mst = findMinimumSpanningTree(edges);
+
+        System.out.println("Minimum spanning tree:");
+        // Start at vertex 1 since 0 is the root.
+        for (int i = 1; i < numVert; i++) {
+            System.out.printf("%d %d %d\n", mst[i][0], i, mst[i][1]);
+        }
+    }
+
+    /**
+     * Finds the minimum spanning tree (MST) for a given graph
+     * @return a 2D array holding the parent vertex and distance for each vertex in the MST.
+     * result[i, 0] is the parent vertex of vertex i
+     * result[i, 1] is the weight to the parent vertex of i in the MST
+     */
+    private static int[][] findMinimumSpanningTree(Edge[] graph) {
+        int numVertices = graph.length;
+        int[][] result = new int[numVertices][2];
+        SpecializedMinHeap heap = new SpecializedMinHeap(0, numVertices);
+        int[] parent    = new int[numVertices];
+        int[] distance  = new int[numVertices];
+        boolean[] visit = new boolean[numVertices];
+
+        // Initialize arrays to default values
+        for (int i = 0; i < numVertices; i++) {
+            parent[i] = -1;
+            distance[i] = Integer.MAX_VALUE;
+            visit[i] = false;
+        }
+
+        // Root node always has a distance of 0
+        distance[0] = 0;
+
+        for (int i = 0; i < numVertices; i++) {
+            heap.insert(i, distance[i]);
+        }
+
+        Data u;
+        int vert;
+        int nextV;
+        Edge e;
+        while (!heap.isEmpty()) {
+            u = heap.deleteMin();
+            vert = u.getVertex();
+            visit[vert] = true;
+            e = graph[vert];
+            do {
+                nextV = e.getNextVert();
+                if (!visit[nextV] && e.getWeight() < distance[nextV]) {
+                    distance[nextV] = e.getWeight();
+                    heap.decreaseKey(nextV, distance[nextV]);
+                    parent[nextV] = vert;
+                }
+                e = e.getNextEdge();
+            } while (e != null);
+        }
+
+        for (int i = 0; i < numVertices; i++) {
+            result[i][0] = parent[i];
+            result[i][1] = distance[i];
+        }
+
+        return result;
+    }
+}
+::::::::::::::
+Edge.java
+::::::::::::::
+public class Edge{
+    private int nextVert;
+    private int weight;
+    private Edge nextEdge;
+
+    public Edge(int nextVert, int weight, Edge nextEdge){
+        this.nextVert = nextVert;
+        this.weight = weight;
+        this.nextEdge = nextEdge;
+    }
+
+    public int getNextVert(){
+        return nextVert;
+    }
+    public int getWeight(){
+        return weight;
+    }
+    public Edge getNextEdge(){
+        return nextEdge;
+    }       
+        
+
+    public void setNextVert(int vert){
+        this.nextVert = vert;  
+    }
+
+    public void setWeight(int weight){
+        this.weight = weight;
+    }
+    public void setNextEdge(Edge e){
+        this.nextEdge = e;
+    }
+}
+::::::::::::::
+testFiles
+::::::::::::::
+::::::::::::::
+../DAA/Assignment4/test/run_tests_driver.csh
+::::::::::::::
+#!/usr/bin/env bash
+
+declare -a input_suffixes=("0" "1")
+testOutputPrefix="output_heap"
+timeOutputPrefix="time_heap"
+inputPrefix="input_heap"
+testToBin="../bin/"
+binToTest="../test/"
+driverName="Driver"
+currDir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd "$currDir/$testToBin"
+for i in "${input_suffixes[@]}"
+do
+    echo "running test for input$i"
+    (time java "$driverName" < "$binToTest$inputPrefix$i" > "$binToTest$testOutputPrefix$i") 2> "$binToTest$timeOutputPrefix$i"
+done
+::::::::::::::
+../DAA/Assignment4/test/run_tests_mst.csh
+::::::::::::::
+#!/usr/bin/env bash
+
+declare -a input_suffixes=("0" "1" "2")
+testOutputPrefix="output_mst"
+timeOutputPrefix="time_mst"
+inputPrefix="input_mst"
+testToBin="../bin/"
+binToTest="../test/"
+driverName="MST"
+currDir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd "$currDir/$testToBin"
+for i in "${input_suffixes[@]}"
+do
+    echo "running test for input$i"
+    (time java "$driverName" < "$binToTest$inputPrefix$i" > "$binToTest$testOutputPrefix$i") 2> "$binToTest$timeOutputPrefix$i"
+done
+::::::::::::::
+../DAA/Assignment4/test/input_heap0
+::::::::::::::
+1
+2
+0
+12
+2
+1
+15
+2
+2
+34
+2
+3
+6
+2
+4
+21
+2
+5
+2
+5
+3
+5
+3
+5
+1
+4
+2
+10
+5
+3
+5
+3
+5
+3
+5
+3
+5
+0
+
+::::::::::::::
+../DAA/Assignment4/test/input_heap1
+::::::::::::::
+2
+0
+65
+2
+1
+54
+2
+2
+34
+2
+3
+23
+2
+4
+10
+2
+5
+2
+5
+3
+5
+3
+5
+3
+5
+3
+5
+3
+5
+3
+5
+0
+::::::::::::::
+../DAA/Assignment4/test/output_heap0
+::::::::::::::
+
+Select from the following menu:
+    0.	Exit the program.
+    1.	Check if MinHeap is empty.
+    2.	Insert key, value in MinHeap.
+    3.	Delete min value from MinHeap.
+    4.	Decrease key's value in MinHeap.
+    5.	Display items in MinHeap in array order.
+
+
+Make your menu selection now: 1
+The heap is empty
+
+Make your menu selection now: 2
+What is the key you are are adding?0
+What is the value you are adding?12
+
+Make your menu selection now: 2
+What is the key you are are adding?1
+What is the value you are adding?15
+
+Make your menu selection now: 2
+What is the key you are are adding?2
+What is the value you are adding?34
+
+Make your menu selection now: 2
+What is the key you are are adding?3
+What is the value you are adding?6
+
+Make your menu selection now: 2
+What is the key you are are adding?4
+What is the value you are adding?21
+
+Make your menu selection now: 2
+What is the key you are are adding?5
+What is the value you are adding?2
+
+Make your menu selection now: 5
+2	12	6	15	21	34	
+
+
+Make your menu selection now: 3
+
+Make your menu selection now: 5
+6	12	34	15	21	
+
+
+Make your menu selection now: 3
+
+Make your menu selection now: 5
+12	15	34	21	
+
+
+Make your menu selection now: 1
+The heap is not empty
+
+Make your menu selection now: 4
+What is the key you are are decreasing?2
+What is the new value you are lowering to?10
+Value lowered
+
+Make your menu selection now: 5
+10	15	12	21	
+
+
+Make your menu selection now: 3
+
+Make your menu selection now: 5
+12	15	21	
+
+
+Make your menu selection now: 3
+
+Make your menu selection now: 5
+15	21	
+
+
+Make your menu selection now: 3
+
+Make your menu selection now: 5
+21	
+
+
+Make your menu selection now: 3
+
+Make your menu selection now: 5
+
+
+
+Make your menu selection now: 0
+Goodbye!
+::::::::::::::
+../DAA/Assignment4/test/output_heap1
+::::::::::::::
+
+Select from the following menu:
+    0.	Exit the program.
+    1.	Check if MinHeap is empty.
+    2.	Insert key, value in MinHeap.
+    3.	Delete min value from MinHeap.
+    4.	Decrease key's value in MinHeap.
+    5.	Display items in MinHeap in array order.
+
+
+Make your menu selection now: 2
+What is the key you are are adding?0
+What is the value you are adding?65
+
+Make your menu selection now: 2
+What is the key you are are adding?1
+What is the value you are adding?54
+
+Make your menu selection now: 2
+What is the key you are are adding?2
+What is the value you are adding?34
+
+Make your menu selection now: 2
+What is the key you are are adding?3
+What is the value you are adding?23
+
+Make your menu selection now: 2
+What is the key you are are adding?4
+What is the value you are adding?10
+
+Make your menu selection now: 2
+What is the key you are are adding?5
+What is the value you are adding?2
+
+Make your menu selection now: 5
+2	23	10	65	34	54	
+
+
+Make your menu selection now: 3
+
+Make your menu selection now: 5
+10	23	54	65	34	
+
+
+Make your menu selection now: 3
+
+Make your menu selection now: 5
+23	34	54	65	
+
+
+Make your menu selection now: 3
+
+Make your menu selection now: 5
+34	65	54	
+
+
+Make your menu selection now: 3
+
+Make your menu selection now: 5
+54	65	
+
+
+Make your menu selection now: 3
+
+Make your menu selection now: 5
+65	
+
+
+Make your menu selection now: 3
+
+Make your menu selection now: 5
+
+
+
+Make your menu selection now: 0
+Goodbye!
+::::::::::::::
+../DAA/Assignment4/test/output_mst0
+::::::::::::::
+Enter the number of vertices: 10
+Enter the number of edges: 26
+Enter all edges in the following format, one number per line: vertex 1, vertex 2, weight from v1 to v2.
+All edges entered.
+Minimum spanning tree:
+0 1 18
+7 2 15
+8 3 12
+2 4 12
+3 5 17
+1 6 26
+6 7 17
+6 8 17
+4 9 28
+::::::::::::::
+../DAA/Assignment4/test/output_mst1
+::::::::::::::
+Enter the number of vertices: 10
+Enter the number of edges: 45
+Enter all edges in the following format, one number per line: vertex 1, vertex 2, weight from v1 to v2.
+All edges entered.
+Minimum spanning tree:
+0 1 18
+4 2 12
+8 3 12
+1 4 10
+9 5 10
+7 6 17
+2 7 15
+9 8 16
+1 9 17
+::::::::::::::
+../DAA/Assignment4/test/output_mst2
+::::::::::::::
+Enter the number of vertices: 100
+Enter the number of edges: 4950
+Enter all edges in the following format, one number per line: vertex 1, vertex 2, weight from v1 to v2.
+All edges entered.
+Minimum spanning tree:
+23 1 18
+99 2 13
+34 3 11
+35 4 11
+34 5 11
+68 6 12
+82 7 15
+85 8 13
+99 9 13
+68 10 11
+3 11 10
+22 12 18
+29 13 13
+40 14 13
+65 15 10
+79 16 11
+53 17 11
+96 18 14
+4 19 11
+2 20 14
+9 21 11
+0 22 11
+86 23 14
+78 24 11
+52 25 10
+37 26 13
+0 27 13
+6 28 12
+3 29 11
+50 30 13
+14 31 10
+20 32 13
+18 33 14
+48 34 12
+8 35 13
+32 36 16
+16 37 13
+66 38 10
+14 39 10
+82 40 11
+64 41 15
+74 42 10
+66 43 11
+64 44 13
+61 45 13
+57 46 11
+98 47 11
+19 48 13
+16 49 12
+92 50 12
+20 51 13
+47 52 10
+46 53 12
+71 54 14
+45 55 10
+9 56 10
+90 57 11
+51 58 25
+98 59 16
+6 60 12
+82 61 13
+44 62 11
+91 63 11
+27 64 13
+24 65 15
+0 66 11
+78 67 12
+48 68 10
+38 69 14
+86 70 10
+3 71 15
+22 72 14
+0 73 14
+13 74 11
+13 75 12
+73 76 14
+64 77 13
+22 78 13
+66 79 10
+29 80 10
+37 81 15
+9 82 10
+52 83 14
+95 84 10
+63 85 12
+90 86 13
+65 87 14
+75 88 10
+3 89 15
+77 90 11
+25 91 12
+10 92 10
+10 93 14
+81 94 13
+60 95 14
+47 96 11
+34 97 14
+38 98 11
+78 99 12
+::::::::::::::
+allConclusions
+::::::::::::::
+::::::::::::::
+Assignment4ConclusionsChesko.txt
+::::::::::::::
+Brian Chesko
+Assignment 4 Conclusions
+
+Like Joe, I also had to relearn and understand heaps to implement this
+assignment. I came to appreciate the simplicity and power of heaps
+since they have so much utility for such a simple data structure. 
+
+I also got to use GitHub and automated testing some more (although basic
+since it was implemented using bash scripts), which was cool as a team. 
+
+::::::::::::::
+Assignment4ConclusionsLeclercq.txt
+::::::::::::::
+Joseph Leclercq
+Assignment 4 Conclusions
+
+Working on this lab allowed to me further understand the process behind
+finding a MST. Before, I did not have a strong understanding of the 
+algorithm, but the implementation forced me to learn it. Also, I had to
+relearn heaps for this assignment, which I previously had forgotten. 
+Overall, I mainly learned how to use graphs, and the way one is 
+represented in code.
