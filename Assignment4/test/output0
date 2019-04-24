@@ -1,0 +1,14 @@
+Enter the number of vertices: 10
+Enter the number of edges: 26
+Enter all edges in the following format, one number per line: vertex 1, vertex 2, weight from v1 to v2.
+All edges entered.
+Minimum spanning tree:
+0 1 18
+7 2 15
+8 3 12
+2 4 12
+3 5 17
+1 6 26
+6 7 17
+6 8 17
+4 9 28
