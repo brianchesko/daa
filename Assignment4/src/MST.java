@@ -26,12 +26,16 @@ public class MST {
         System.out.println("All edges entered.");
 
         int[][] mst = findMinimumSpanningTree(edges);
-
+        int sum = 0;
+        int weight;
         System.out.println("Minimum spanning tree:");
         // Start at vertex 1 since 0 is the root.
         for (int i = 1; i < numVert; i++) {
-            System.out.printf("%d %d %d\n", mst[i][0], i, mst[i][1]);
+            weight = mst[i][1];
+            sum += weight;
+            System.out.printf("%d %d %d\n", mst[i][0], i, weight);
         }
+        System.out.printf("Total Weight: %d\n", sum);
     }
 
     /**
